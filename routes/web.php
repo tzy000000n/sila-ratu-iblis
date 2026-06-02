@@ -19,7 +19,8 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // Protected Routes
 Route::middleware('auth.session')->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $materiLanjut = \App\Models\Materi::where('level', 'EASY')->first();
+        return view('dashboard', compact('materiLanjut'));
     })->name('dashboard');
 
     Route::get('/materi', [MateriController::class, 'index'])->name('materi');

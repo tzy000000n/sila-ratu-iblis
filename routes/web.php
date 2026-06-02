@@ -24,4 +24,17 @@ Route::middleware('auth.session')->group(function () {
 
     Route::get('/materi', [MateriController::class, 'index'])->name('materi');
     Route::get('/materi/{slug}', [MateriController::class, 'show'])->name('materi.detail');
+
+    Route::get('/quiz', function () {
+        return view('quiz');
+    })->name('quiz');
+
+    Route::get('/simulasi', function () {
+        return view('simulasi');
+    })->name('simulasi');
+
+    Route::get('/hasil', function () {
+        return view('hasil');
+    })->name('hasil');
 });
+

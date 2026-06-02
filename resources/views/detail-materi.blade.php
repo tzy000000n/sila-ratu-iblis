@@ -61,7 +61,7 @@
                 <p class="text-xs font-bold text-muted" style="letter-spacing: 0.1em; margin-bottom: 0.75rem;">SELESAI MEMBACA?</p>
                 <h3 class="font-bold" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Uji pengetahuanmu sekarang!</h3>
                 <p class="text-muted text-sm" style="margin-bottom: 1.5rem;">Kerjakan quiz untuk mengukur pemahamanmu tentang materi ini.</p>
-                <a href="#" class="btn btn-primary" style="padding: 0.875rem 2.5rem; font-size: 1rem; border-radius: 2rem;">
+                <a href="{{ route('quiz', ['materi' => $materi['slug']]) }}" class="btn btn-primary" style="padding: 0.875rem 2.5rem; font-size: 1rem; border-radius: 2rem;">
                     Mulai Quiz <i data-lucide="arrow-right" style="width: 18px; height: 18px; margin-left: 8px;"></i>
                 </a>
             </div>
@@ -77,7 +77,7 @@
             </div>
             <span class="text-xs font-bold text-muted">65%</span>
         </div>
-        <a href="#" class="btn btn-primary" style="margin-left: 2rem; padding: 0.6rem 1.5rem; font-size: 0.875rem; border-radius: 2rem;">
+        <a href="{{ route('quiz', ['materi' => $materi['slug']]) }}" class="btn btn-primary" style="margin-left: 2rem; padding: 0.6rem 1.5rem; font-size: 0.875rem; border-radius: 2rem;">
             Mulai Quiz <i data-lucide="arrow-right" style="width: 16px; height: 16px; margin-left: 6px;"></i>
         </a>
     </div>

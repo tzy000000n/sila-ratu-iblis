@@ -19,21 +19,23 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // Protected Routes
 Route::middleware('auth.session')->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $materiLanjut = \App\Models\Materi::where('level', 'EASY')->first();
+        return view('dashboard', compact('materiLanjut'));
     })->name('dashboard');
 
     Route::get('/materi', [MateriController::class, 'index'])->name('materi');
     Route::get('/materi/{slug}', [MateriController::class, 'show'])->name('materi.detail');
 
-    Route::get('/rekomendasi', function () {
-        return view('rekomendasi', ['active' => 'rekomendasi']);
-    })->name('rekomendasi');
+    Route::get('/quiz', function () {
+        return view('quiz');
+    })->name('quiz');
 
-    Route::get('/password-checker', function () {
-        return view('password-checker', ['active' => 'password-checker']);
-    })->name('password-checker');
+    Route::get('/simulasi', function () {
+        return view('simulasi');
+    })->name('simulasi');
 
-    Route::get('/profil', function () {
-        return view('profile', ['active' => 'profil']);
-    })->name('profile');
+    Route::get('/hasil', function () {
+        return view('hasil');
+    })->name('hasil');
 });
+

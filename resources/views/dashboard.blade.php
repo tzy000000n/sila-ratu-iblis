@@ -3,82 +3,7 @@
 @section('content')
 <div style="display:flex; min-height:100vh; background:#F9FAFB;">
 
-    {{-- ===== SIDEBAR ===== --}}
-    <aside style="width:260px; flex-shrink:0; position:fixed; top:0; left:0; height:100vh;
-                  background:rgba(255,255,255,0.92); backdrop-filter:blur(12px);
-                  border-right:1px solid #E5E7EB; display:flex; flex-direction:column;
-                  justify-content:space-between; z-index:30; overflow-y:auto;">
-        <div>
-            <div style="padding:1.5rem 1.5rem 1rem;">
-                <p style="font-size:1.35rem; font-weight:800; color:#7b61ff; line-height:1;">Nexyra Learn</p>
-                <p style="font-size:0.65rem; font-weight:700; color:#9CA3AF; letter-spacing:0.1em; margin-top:3px;">CYBERSECURITY LAB</p>
-            </div>
-            <nav style="padding:0.5rem 0.75rem; display:flex; flex-direction:column; gap:4px;">
-                <a href="{{ route('dashboard') }}"
-                   style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                          border-radius:0.75rem; font-size:0.9rem; font-weight:600;
-                          background:rgba(123,97,255,0.1); color:#7b61ff;">
-                    <i data-lucide="layout-dashboard" style="width:18px;height:18px;flex-shrink:0;"></i> Dashboard
-                </a>
-                <a href="{{ route('materi') }}"
-                   style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                          border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
-                   onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
-                    <i data-lucide="book-open" style="width:18px;height:18px;flex-shrink:0;"></i> Materi
-                </a>
-                <a href="#"
-                   style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                          border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
-                   onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
-                    <i data-lucide="file-question" style="width:18px;height:18px;flex-shrink:0;"></i> Quiz
-                </a>
-                <a href="#"
-                   style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                          border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
-                   onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
-                    <i data-lucide="play-square" style="width:18px;height:18px;flex-shrink:0;"></i> Simulasi
-                </a>
-                <a href="#"
-                   style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                          border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
-                   onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
-                    <i data-lucide="bar-chart-2" style="width:18px;height:18px;flex-shrink:0;"></i> Hasil
-                </a>
-                <a href="{{ route('rekomendasi') }}"
-                   style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                          border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
-                   onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
-                    <i data-lucide="sparkles" style="width:18px;height:18px;flex-shrink:0;"></i> Rekomendasi
-                </a>
-                <a href="{{ route('password-checker') }}"
-                   style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                          border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
-                   onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
-                    <i data-lucide="shield-check" style="width:18px;height:18px;flex-shrink:0;"></i> Password Checker
-                </a>
-                <a href="{{ route('profile') }}"
-                   style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                          border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
-                   onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
-                    <i data-lucide="user-circle" style="width:18px;height:18px;flex-shrink:0;"></i> Profil
-                </a>
-            </nav>
-        </div>
-        <div style="padding:1rem 0.75rem; border-top:1px solid #E5E7EB; display:flex; flex-direction:column; gap:4px;">
-            <a href="#"
-               style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                      border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
-               onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
-                <i data-lucide="settings" style="width:18px;height:18px;flex-shrink:0;"></i> Settings
-            </a>
-            <a href="{{ route('logout') }}"
-               style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                      border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#EF4444;"
-               onmouseover="this.style.background='#FEE2E2'" onmouseout="this.style.background='transparent'">
-                <i data-lucide="log-out" style="width:18px;height:18px;flex-shrink:0;"></i> Logout
-            </a>
-        </div>
-    </aside>
+    @include('partials.sidebar', ['active' => 'dashboard'])
 
     {{-- ===== MAIN ===== --}}
     <main style="flex:1; margin-left:260px; display:flex; flex-direction:column;">
@@ -130,15 +55,15 @@
                         Halo, {{ session('user') ?? 'Siswa' }}! 👋
                     </h2>
                     <p style="font-size:0.975rem;opacity:0.88;margin-bottom:1.5rem;line-height:1.65;">
-                        Siap melanjutkan petualanganmu hari ini? Kamu tinggal sedikit lagi menyelesaikan modul <strong>Ethical Hacking 101</strong>.
+                        Siap melanjutkan petualanganmu hari ini? Kamu tinggal sedikit lagi menyelesaikan modul <strong>{{ $materiLanjut ? $materiLanjut->judul : 'Keamanan Digital' }}</strong>.
                     </p>
                     <div style="display:flex;gap:0.75rem;">
-                        <button style="display:inline-flex;align-items:center;padding:0.75rem 1.75rem;
-                                       border-radius:9999px;font-weight:700;font-size:0.9rem;
+                        <a href="{{ $materiLanjut ? route('materi.detail', $materiLanjut->slug) : route('materi') }}" style="display:inline-flex;align-items:center;padding:0.75rem 1.75rem;
+                                       border-radius:9999px;font-weight:700;font-size:0.9rem;text-decoration:none;
                                        background:#fff;color:#7b61ff;border:none;cursor:pointer;
                                        box-shadow:0 4px 16px rgba(0,0,0,0.15);">
                             Lanjut Belajar
-                        </button>
+                        </a>
                         <button style="display:inline-flex;align-items:center;padding:0.75rem 1.75rem;
                                        border-radius:9999px;font-weight:600;font-size:0.9rem;
                                        background:rgba(255,255,255,0.15);color:#fff;
@@ -197,39 +122,41 @@
                     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">
                         @php
                         $cards = [
-                            ['book-open','#7b61ff','Materi','Akses perpustakaan modul keamanan siber yang interaktif.','bar','75%'],
-                            ['file-question','#F59E0B','Quiz','Uji pengetahuanmu dengan tantangan seru tiap akhir modul.','badge-warning','12 BARU'],
-                            ['play-square','#10B981','Simulasi','Praktek langsung di Virtual Lab yang aman dan terisolasi.','badge-success','LAB AKTIF'],
-                            ['bar-chart-2','#EF4444','Hasil','Lihat perkembangan skill dan sertifikat yang telah diraih.','badge-danger','LIHAT RAPOR'],
+                            ['book-open','#7b61ff','Materi','Akses perpustakaan modul keamanan siber yang interaktif.','bar','75%', route('materi')],
+                            ['file-question','#F59E0B','Quiz','Uji pengetahuanmu dengan tantangan seru tiap akhir modul.','badge-warning','12 BARU', '#'],
+                            ['play-square','#10B981','Simulasi','Praktek langsung di Virtual Lab yang aman dan terisolasi.','badge-success','LAB AKTIF', '#'],
+                            ['bar-chart-2','#EF4444','Hasil','Lihat perkembangan skill dan sertifikat yang telah diraih.','badge-danger','LIHAT RAPOR', '#'],
                         ];
                         @endphp
                         @foreach($cards as $c)
-                        <div style="background:#fff;border:1px solid #E5E7EB;border-radius:1rem;padding:1.25rem;
-                                    display:flex;flex-direction:column;gap:0.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.03);">
-                            <div style="width:40px;height:40px;border-radius:0.5rem;background:#F9FAFB;
-                                        border:1px solid #E5E7EB;display:flex;align-items:center;justify-content:center;margin-bottom:0.25rem;">
-                                <i data-lucide="{{ $c[0] }}" style="width:20px;height:20px;color:{{ $c[1] }};"></i>
-                            </div>
-                            <p style="font-size:0.9rem;font-weight:700;color:#111827;">{{ $c[2] }}</p>
-                            <p style="font-size:0.75rem;color:#6B7280;line-height:1.55;flex:1;">{{ $c[3] }}</p>
-                            @if($c[4] === 'bar')
-                            <div style="display:flex;align-items:center;gap:6px;margin-top:auto;">
-                                <div style="flex:1;background:#E5E7EB;border-radius:9999px;height:5px;">
-                                    <div style="background:#7b61ff;height:5px;border-radius:9999px;width:{{ $c[5] }};"></div>
+                        <a href="{{ $c[6] ?? '#' }}" style="text-decoration:none; color:inherit;">
+                            <div style="background:#fff;border:1px solid #E5E7EB;border-radius:1rem;padding:1.25rem;
+                                        display:flex;flex-direction:column;gap:0.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.03); height:100%; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.05)'" onmouseout="this.style.transform='none'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.03)'">
+                                <div style="width:40px;height:40px;border-radius:0.5rem;background:#F9FAFB;
+                                            border:1px solid #E5E7EB;display:flex;align-items:center;justify-content:center;margin-bottom:0.25rem;">
+                                    <i data-lucide="{{ $c[0] }}" style="width:20px;height:20px;color:{{ $c[1] }};"></i>
                                 </div>
-                                <span style="font-size:0.65rem;font-weight:700;color:#9CA3AF;">{{ $c[5] }}</span>
+                                <p style="font-size:0.9rem;font-weight:700;color:#111827;">{{ $c[2] }}</p>
+                                <p style="font-size:0.75rem;color:#6B7280;line-height:1.55;flex:1;">{{ $c[3] }}</p>
+                                @if($c[4] === 'bar')
+                                <div style="display:flex;align-items:center;gap:6px;margin-top:auto;">
+                                    <div style="flex:1;background:#E5E7EB;border-radius:9999px;height:5px;">
+                                        <div style="background:#7b61ff;height:5px;border-radius:9999px;width:{{ $c[5] }};"></div>
+                                    </div>
+                                    <span style="font-size:0.65rem;font-weight:700;color:#9CA3AF;">{{ $c[5] }}</span>
+                                </div>
+                                @elseif($c[4] === 'badge-warning')
+                                <span style="font-size:0.65rem;font-weight:800;padding:0.2rem 0.5rem;border-radius:0.375rem;
+                                             background:#FEF3C7;color:#F59E0B;width:fit-content;margin-top:auto;">{{ $c[5] }}</span>
+                                @elseif($c[4] === 'badge-success')
+                                <span style="font-size:0.65rem;font-weight:800;padding:0.2rem 0.5rem;border-radius:0.375rem;
+                                             background:#D1FAE5;color:#10B981;width:fit-content;margin-top:auto;">{{ $c[5] }}</span>
+                                @else
+                                <span style="font-size:0.65rem;font-weight:800;padding:0.2rem 0.5rem;border-radius:0.375rem;
+                                             background:#FEE2E2;color:#EF4444;width:fit-content;margin-top:auto;">{{ $c[5] }}</span>
+                                @endif
                             </div>
-                            @elseif($c[4] === 'badge-warning')
-                            <span style="font-size:0.65rem;font-weight:800;padding:0.2rem 0.5rem;border-radius:0.375rem;
-                                         background:#FEF3C7;color:#F59E0B;width:fit-content;margin-top:auto;">{{ $c[5] }}</span>
-                            @elseif($c[4] === 'badge-success')
-                            <span style="font-size:0.65rem;font-weight:800;padding:0.2rem 0.5rem;border-radius:0.375rem;
-                                         background:#D1FAE5;color:#10B981;width:fit-content;margin-top:auto;">{{ $c[5] }}</span>
-                            @else
-                            <span style="font-size:0.65rem;font-weight:800;padding:0.2rem 0.5rem;border-radius:0.375rem;
-                                         background:#FEE2E2;color:#EF4444;width:fit-content;margin-top:auto;">{{ $c[5] }}</span>
-                            @endif
-                        </div>
+                        </a>
                         @endforeach
                     </div>
 

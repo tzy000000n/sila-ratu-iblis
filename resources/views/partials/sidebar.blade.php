@@ -8,31 +8,36 @@
             <p style="font-size:0.65rem; font-weight:700; color:#9CA3AF; letter-spacing:0.1em; margin-top:3px;">CYBERSECURITY LAB</p>
         </div>
         <nav style="padding:0.5rem 0.75rem; display:flex; flex-direction:column; gap:4px;">
-            <a href="{{ route('dashboard') }}"
-               style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem; border-radius:0.75rem;
-                      font-size:0.9rem; font-weight:{{ $active === 'dashboard' ? '600' : '500' }};
-                      background:{{ $active === 'dashboard' ? 'rgba(123,97,255,0.1)' : 'transparent' }};
-                      color:{{ $active === 'dashboard' ? '#7b61ff' : '#6B7280' }};"
-               onmouseover="if('{{ $active }}' !== 'dashboard') this.style.background='#F3F4F6'"
-               onmouseout="if('{{ $active }}' !== 'dashboard') this.style.background='transparent'">
-                <i data-lucide="layout-dashboard" style="width:18px;height:18px;flex-shrink:0;"></i> Dashboard
-            </a>
-            <a href="{{ route('materi') }}"
-               style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem; border-radius:0.75rem;
-                      font-size:0.9rem; font-weight:{{ $active === 'materi' ? '600' : '500' }};
-                      background:{{ $active === 'materi' ? 'rgba(123,97,255,0.1)' : 'transparent' }};
-                      color:{{ $active === 'materi' ? '#7b61ff' : '#6B7280' }};"
-               onmouseover="if('{{ $active }}' !== 'materi') this.style.background='#F3F4F6'"
-               onmouseout="if('{{ $active }}' !== 'materi') this.style.background='transparent'">
-                <i data-lucide="book-open" style="width:18px;height:18px;flex-shrink:0;"></i> Materi
-            </a>
-            @foreach([['file-question','Quiz'],['play-square','Simulasi'],['bar-chart-2','Hasil']] as $nav)
-            <a href="#"
-               style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                      border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
-               onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
-                <i data-lucide="{{ $nav[0] }}" style="width:18px;height:18px;flex-shrink:0;"></i> {{ $nav[1] }}
-            </a>
+            @php
+                $navItems = [
+                    ['route' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'layout-dashboard'],
+                    ['route' => 'materi', 'label' => 'Materi', 'icon' => 'book-open'],
+                    ['route' => 'quiz', 'label' => 'Quiz', 'icon' => 'file-question'],
+                    ['route' => 'simulasi', 'label' => 'Simulasi', 'icon' => 'play-square'],
+                    ['route' => 'hasil', 'label' => 'Hasil', 'icon' => 'bar-chart-2'],
+                    ['route' => '#', 'label' => 'Rekomendasi', 'icon' => 'star'],
+                    ['route' => '#', 'label' => 'Password Checker', 'icon' => 'shield-check'],
+                    ['route' => '#', 'label' => 'Profil', 'icon' => 'user-circle'],
+                ];
+            @endphp
+
+            @foreach($navItems as $item)
+                @php
+                    $isRoute = $item['route'] !== '#';
+                    $href = $isRoute ? route($item['route']) : '#';
+                    $isActive = $active === $item['route'];
+                @endphp
+                <a href="{{ $href }}"
+                   style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem; border-radius:0.75rem;
+                          font-size:0.9rem; font-weight:{{ $isActive ? '600' : '500' }};
+                          background:{{ $isActive ? 'rgba(123,97,255,0.1)' : 'transparent' }};
+                          color:{{ $isActive ? '#7b61ff' : '#6B7280' }}; transition: all 0.2s ease;"
+                   @if(!$isActive)
+                       onmouseover="this.style.background='#F3F4F6'"
+                       onmouseout="this.style.background='transparent'"
+                   @endif>
+                    <i data-lucide="{{ $item['icon'] }}" style="width:18px;height:18px;flex-shrink:0;"></i> {{ $item['label'] }}
+                </a>
             @endforeach
 
             <a href="{{ route('rekomendasi') }}"

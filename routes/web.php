@@ -24,4 +24,16 @@ Route::middleware('auth.session')->group(function () {
 
     Route::get('/materi', [MateriController::class, 'index'])->name('materi');
     Route::get('/materi/{slug}', [MateriController::class, 'show'])->name('materi.detail');
+
+    Route::get('/rekomendasi', function () {
+        return view('rekomendasi', ['active' => 'rekomendasi']);
+    })->name('rekomendasi');
+
+    Route::get('/password-checker', function () {
+        return view('password-checker', ['active' => 'password-checker']);
+    })->name('password-checker');
+
+    Route::get('/profil', function () {
+        return view('profile', ['active' => 'profil']);
+    })->name('profile');
 });

@@ -26,11 +26,33 @@
                onmouseout="if('{{ $active }}' !== 'materi') this.style.background='transparent'">
                 <i data-lucide="book-open" style="width:18px;height:18px;flex-shrink:0;"></i> Materi
             </a>
-            @foreach([['file-question','Quiz'],['play-square','Simulasi'],['bar-chart-2','Hasil'],['star','Rekomendasi'],['shield-check','Password Checker'],['user-circle','Profil']] as $nav)
+            @foreach([['file-question','Quiz'],['play-square','Simulasi'],['bar-chart-2','Hasil']] as $nav)
             <a href="#"
                style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
                       border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
                onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
+                <i data-lucide="{{ $nav[0] }}" style="width:18px;height:18px;flex-shrink:0;"></i> {{ $nav[1] }}
+            </a>
+            @endforeach
+
+            <a href="{{ route('rekomendasi') }}"
+               style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem; border-radius:0.75rem;
+                      font-size:0.9rem; font-weight:{{ ($active ?? '') === 'rekomendasi' ? '600' : '500' }};
+                      background:{{ ($active ?? '') === 'rekomendasi' ? 'rgba(123,97,255,0.1)' : 'transparent' }};
+                      color:{{ ($active ?? '') === 'rekomendasi' ? '#7b61ff' : '#6B7280' }};"
+               onmouseover="if('{{ $active ?? '' }}' !== 'rekomendasi') this.style.background='#F3F4F6'"
+               onmouseout="if('{{ $active ?? '' }}' !== 'rekomendasi') this.style.background='transparent'">
+                <i data-lucide="sparkles" style="width:18px;height:18px;flex-shrink:0;"></i> Rekomendasi
+            </a>
+
+            @foreach([['shield-check','Password Checker', route('password-checker'), 'password-checker'], ['user-circle','Profil', route('profile'), 'profil']] as $nav)
+            <a href="{{ $nav[2] }}"
+               style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem; border-radius:0.75rem;
+                      font-size:0.9rem; font-weight:{{ ($active ?? '') === $nav[3] ? '600' : '500' }};
+                      background:{{ ($active ?? '') === $nav[3] ? 'rgba(123,97,255,0.1)' : 'transparent' }};
+                      color:{{ ($active ?? '') === $nav[3] ? '#7b61ff' : '#6B7280' }};"
+               onmouseover="if('{{ $active ?? '' }}' !== '{{ $nav[3] }}') this.style.background='#F3F4F6'"
+               onmouseout="if('{{ $active ?? '' }}' !== '{{ $nav[3] }}') this.style.background='transparent'">
                 <i data-lucide="{{ $nav[0] }}" style="width:18px;height:18px;flex-shrink:0;"></i> {{ $nav[1] }}
             </a>
             @endforeach

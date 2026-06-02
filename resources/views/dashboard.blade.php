@@ -44,19 +44,19 @@
                    onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
                     <i data-lucide="bar-chart-2" style="width:18px;height:18px;flex-shrink:0;"></i> Hasil
                 </a>
-                <a href="#"
+                <a href="{{ route('rekomendasi') }}"
                    style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
                           border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
                    onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
-                    <i data-lucide="star" style="width:18px;height:18px;flex-shrink:0;"></i> Rekomendasi
+                    <i data-lucide="sparkles" style="width:18px;height:18px;flex-shrink:0;"></i> Rekomendasi
                 </a>
-                <a href="#"
+                <a href="{{ route('password-checker') }}"
                    style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
                           border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
                    onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
                     <i data-lucide="shield-check" style="width:18px;height:18px;flex-shrink:0;"></i> Password Checker
                 </a>
-                <a href="#"
+                <a href="{{ route('profile') }}"
                    style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
                           border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
                    onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">

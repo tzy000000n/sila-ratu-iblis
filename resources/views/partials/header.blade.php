@@ -1,6 +1,7 @@
 <header style="position:sticky; top:0; z-index:20; background:#fff;
                border-bottom:1px solid #E5E7EB; padding:1rem 1.75rem;
                display:flex; align-items:center; justify-content:space-between;">
+    <button id="mobile-drawer-toggle" type="button" style="display:none; background:none; border:none; font-size:1.5rem; margin-right:1rem;" aria-label="Toggle menu">☰</button>
     <div style="display:flex; align-items:center; gap:8px; background:#F9FAFB;
                 border:1px solid #E5E7EB; border-radius:0.75rem; padding:0.5rem 0.85rem; width:380px;">
         <i data-lucide="search" style="width:16px;height:16px;color:#9CA3AF;flex-shrink:0;"></i>

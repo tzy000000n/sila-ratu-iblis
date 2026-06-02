@@ -215,6 +215,125 @@ class MateriController extends Controller
                 <p style="margin-bottom:1.5rem;">Kunci pertahanan terbaik terhadap social engineering adalah <strong>skeptisisme yang sehat</strong>. Selalu verifikasi identitas pengirim melalui saluran resmi sebelum memberikan informasi apapun.</p>
             ',
         ],
+        'mastering-social-engineering-defense' => [
+            'slug'      => 'mastering-social-engineering-defense',
+            'judul'     => 'Mastering Social Engineering Defense',
+            'deskripsi' => 'Pelajari taktik psikologis yang digunakan oleh penyerang siber untuk memanipulasi target dan cara membangun pertahanan mental yang kuat.',
+            'level'     => 'HARD',
+            'kategori'  => 'Keamanan Digital',
+            'konten'    => '
+                <p style="margin-bottom:1.5rem;">Social engineering adalah seni memanipulasi psikologi manusia agar membagikan informasi rahasia atau melakukan tindakan yang membahayakan sistem. Berbeda dengan serangan teknis yang menargetkan kerentanan pada software, social engineering menargetkan kerentanan terbesar dalam rantai keamanan: <strong>manusia</strong>.</p>
+
+                <h2 style="font-size: 1.35rem; font-weight: 800; margin: 2rem 0 1rem; color: #111;">6 Prinsip Persuasi Robert Cialdini dalam Keamanan Siber</h2>
+                <p style="margin-bottom:1rem;">Penyerang siber seringkali menggunakan prinsip psikologi sosial untuk memperdaya korban mereka:</p>
+
+                <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                    <li style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                        <span style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--primary); margin-top: 6px; flex-shrink: 0;"></span>
+                        <span><strong>Otoritas (Authority):</strong> Berpura-pura menjadi atasan, polisi, atau staf IT untuk memicu kepatuhan otomatis.</span>
+                    </li>
+                    <li style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                        <span style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--primary); margin-top: 6px; flex-shrink: 0;"></span>
+                        <span><strong>Kelangkaan (Scarcity):</strong> Mengklaim bahwa penawaran atau akses akan segera berakhir untuk memaksa keputusan cepat.</span>
+                    </li>
+                    <li style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                        <span style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--primary); margin-top: 6px; flex-shrink: 0;"></span>
+                        <span><strong>Konsensus (Social Proof):</strong> Menyebutkan orang lain yang telah melakukan hal yang sama untuk membuat korban merasa aman.</span>
+                    </li>
+                </ul>
+
+                <h2 style="font-size: 1.35rem; font-weight: 800; margin: 2rem 0 1rem; color: #111;">Langkah Pertahanan Mental</h2>
+                <p style="margin-bottom:1.5rem;">Untuk melindungi diri dari taktik manipulasi sosial, selalu terapkan protokol berikut:</p>
+
+                <div style="background: linear-gradient(135deg, #F5F3FF, #EDE9FE); border-radius: 0.75rem; padding: 1.5rem; margin: 2rem 0;">
+                    <h4 style="font-weight: 800; margin-bottom: 0.75rem; color: var(--primary);">Protokol Verifikasi Mandiri</h4>
+                    <p style="font-size:0.875rem; line-height:1.6; color:#4B5563; margin:0;">1. <strong>Tenang dan Berpikir Jernih:</strong> Penyerang memicu emosi (takut atau tergesa-gesa) untuk meniadakan logika berpikir logismu.<br>2. <strong>Gunakan Saluran Resmi:</strong> Hubungi kembali pihak yang mengklaim menghubungi kamu melalui nomor telepon atau email resmi dari website mereka.<br>3. <strong>Jangan Membagikan OTP/Password:</strong> Ingat bahwa tidak ada institusi sah yang akan meminta data kredensial atau kode OTP-mu.</p>
+                </div>
+            ',
+        ],
+        'dasar-keamanan-jaringan' => [
+            'slug'      => 'dasar-keamanan-jaringan',
+            'judul'     => 'Dasar Keamanan Jaringan',
+            'deskripsi' => 'Pahami bagaimana data berpindah dari perangkatmu ke server internet dan bagaimana enkripsi melindungi data tersebut dari intersepsi.',
+            'level'     => 'EASY',
+            'kategori'  => 'Networking',
+            'konten'    => '
+                <p style="margin-bottom:1.5rem;">Setiap kali kamu membuka website, mengirim pesan chat, atau menonton video online, data mengalir dari perangkatmu melewati puluhan router dan kabel sebelum sampai ke tujuannya. Tanpa proteksi yang memadai, siapa saja di jalur tersebut dapat membaca data yang kamu kirimkan.</p>
+
+                <h2 style="font-size: 1.35rem; font-weight: 800; margin: 2rem 0 1rem; color: #111;">Bagaimana Data Mengalir?</h2>
+                <p style="margin-bottom:1.5rem;">Data yang kamu kirim dipecah menjadi bagian-bagian kecil yang disebut <strong>paket data</strong>. Setiap paket dibungkus dengan alamat pengirim dan penerima, mirip dengan amplop surat fisik.</p>
+
+                <div style="background-color: #0F172A; border-radius: 1rem; overflow: hidden; margin: 2rem 0; padding: 2rem; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem; justify-content: center;">
+                        <i data-lucide="smartphone" style="width: 32px; height: 32px; color: #38BDF8;"></i>
+                        <div style="display: flex; gap: 8px;">
+                            <span style="width: 12px; height: 12px; border-radius: 50%; background-color: #38BDF8;"></span>
+                            <span style="width: 12px; height: 12px; border-radius: 50%; background-color: #38BDF8;"></span>
+                            <span style="width: 12px; height: 12px; border-radius: 50%; background-color: #38BDF8;"></span>
+                        </div>
+                        <i data-lucide="globe" style="width: 32px; height: 32px; color: #38BDF8;"></i>
+                    </div>
+                    <span style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">Enkripsi HTTPS mengamankan paket data selama transit di jaringan internet.</span>
+                </div>
+
+                <h2 style="font-size: 1.35rem; font-weight: 800; margin: 2rem 0 1rem; color: #111;">Peran HTTPS dan Enkripsi SSL/TLS</h2>
+                <p style="margin-bottom:1rem;">HTTPS (Hypertext Transfer Protocol Secure) memastikan bahwa data dikirimkan dalam bentuk sandi (enkripsi). Jika penyerang melakukan penyadapan (Man-in-the-Middle attack), mereka hanya akan melihat teks acak yang tidak berarti.</p>
+            ',
+        ],
+        'seni-kriptografi-modern' => [
+            'slug'      => 'seni-kriptografi-modern',
+            'judul'     => 'Seni Kriptografi Modern',
+            'deskripsi' => 'Pelajari dasar-dasar penyandian data modern, konsep kunci simetris vs asimetris, serta implementasi praktis enkripsi.',
+            'level'     => 'MEDIUM',
+            'kategori'  => 'Cryptography',
+            'konten'    => '
+                <p style="margin-bottom:1.5rem;">Kriptografi adalah ilmu menyembunyikan informasi agar hanya pihak tertentu yang bisa membacanya. Di dunia digital, kriptografi mengamankan password, pesan WhatsApp, transaksi bank, hingga data rahasia negara.</p>
+
+                <h2 style="font-size: 1.35rem; font-weight: 800; margin: 2rem 0 1rem; color: #111;">Kunci Simetris vs Kunci Asimetris</h2>
+                <p style="margin-bottom:1.5rem;">Kriptografi modern terbagi menjadi dua pilar utama:</p>
+
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                    <div style="background: #F9FAFB; border-radius: 0.75rem; padding: 1.25rem; border: 1px solid var(--border);">
+                        <h4 style="font-weight: 800; font-size: 0.9rem; color: var(--primary); margin-bottom:0.5rem;">Enkripsi Simetris</h4>
+                        <p style="font-size: 0.8rem; color: #6B7280; line-height: 1.6;">Menggunakan satu kunci yang sama untuk mengenkripsi dan mendekripsi data. Contoh algoritma: <strong>AES</strong> (Advanced Encryption Standard). Sangat cepat dan efisien.</p>
+                    </div>
+                    <div style="background: #F9FAFB; border-radius: 0.75rem; padding: 1.25rem; border: 1px solid var(--border);">
+                        <h4 style="font-weight: 800; font-size: 0.9rem; color: var(--primary); margin-bottom:0.5rem;">Enkripsi Asimetris</h4>
+                        <p style="font-size: 0.8rem; color: #6B7280; line-height: 1.6;">Menggunakan sepasang kunci: <strong>Public Key</strong> (bisa disebar luas) dan <strong>Private Key</strong> (wajib disimpan aman). Contoh algoritma: <strong>RSA</strong>.</p>
+                    </div>
+                </div>
+
+                <h2 style="font-size: 1.35rem; font-weight: 800; margin: 2rem 0 1rem; color: #111;">Bagaimana Cara Kerja Enkripsi Asimetris?</h2>
+                <p style="margin-bottom:1rem;">Bayangkan gembok dan kunci. Siapapun dapat mengambil gembok terbuka milikmu (Public Key) dan menggunakannya untuk mengunci kotak rahasia. Namun, setelah terkunci, kotak tersebut hanya dapat dibuka kembali menggunakan anak kunci rahasia yang hanya kamu miliki (Private Key).</p>
+            ',
+        ],
+        'owasp-top-10-beginner' => [
+            'slug'      => 'owasp-top-10-beginner',
+            'judul'     => 'OWASP Top 10 Beginner',
+            'deskripsi' => 'Mengenal 10 risiko keamanan aplikasi web paling kritis versi OWASP dan cara dasar melindunginya.',
+            'level'     => 'MEDIUM',
+            'kategori'  => 'Web Security',
+            'konten'    => '
+                <p style="margin-bottom:1.5rem;">OWASP (Open Web Application Security Project) secara berkala mengeluarkan daftar kerentanan keamanan paling kritis yang sering ditemukan pada aplikasi web di seluruh dunia. Mengenal risiko ini adalah langkah pertama membuat aplikasi web yang aman.</p>
+
+                <h2 style="font-size: 1.35rem; font-weight: 800; margin: 2rem 0 1rem; color: #111;">3 Risiko Teratas yang Wajib Diketahui Pemula</h2>
+                
+                <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                    <li style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                        <span style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--primary); margin-top: 6px; flex-shrink: 0;"></span>
+                        <span><strong>1. Broken Access Control:</strong> Kerentanan yang membolehkan pengguna biasa mengakses halaman admin atau mengubah data pengguna lain tanpa otorisasi yang sah.</span>
+                    </li>
+                    <li style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                        <span style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--primary); margin-top: 6px; flex-shrink: 0;"></span>
+                        <span><strong>2. Cryptographic Failures:</strong> Kegagalan melindungi data sensitif saat disimpan atau transit, misalnya menyimpan password dalam bentuk teks biasa (bukan hash).</span>
+                    </li>
+                    <li style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                        <span style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--primary); margin-top: 6px; flex-shrink: 0;"></span>
+                        <span><strong>3. Injection (seperti SQL Injection):</strong> Terjadi ketika input pengguna disisipi query berbahaya dan langsung dijalankan oleh sistem tanpa validasi.</span>
+                    </li>
+                </ul>
+            ',
+        ],
     ];
 
     public function index()

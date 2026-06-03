@@ -208,9 +208,9 @@ body {
 
             {{-- Title Section --}}
             <div style="text-align: center; display: flex; flex-direction: column; gap: 0.5rem;">
-                <h1 style="font-size: 2.5rem; font-weight: 800; color: #111827; letter-spacing: -0.03em; margin: 0;">Test Your Fortress</h1>
+                <h1 style="font-size: 2.5rem; font-weight: 800; color: #111827; letter-spacing: -0.03em; margin: 0;">Uji Ketahanan Sandi Anda</h1>
                 <p style="font-size: 1rem; color: #6B7280; max-width: 640px; margin: 0 auto; line-height: 1.6;">
-                    Think your password is unbreakable? Let's analyze it. We'll check for patterns, complexity, and common hacker tricks to make sure your digital life stays private.
+                    Yakin sandi Anda tidak bisa ditembus? Mari kita analisis. Kami akan memeriksa pola, kompleksitas, dan trik umum peretas untuk memastikan kehidupan digital Anda tetap privat.
                 </p>
             </div>
 
@@ -224,7 +224,7 @@ body {
                     <div class="card-primary">
                         <div style="display: flex; flex-direction: column; gap: 0.25rem;">
                             <span style="font-size: 0.7rem; font-weight: 800; color: #7B61FF; letter-spacing: 0.08em; text-transform: uppercase;">
-                                Password Analysis
+                                Analisis Sandi
                             </span>
                         </div>
 
@@ -247,7 +247,7 @@ body {
                         <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem;">
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <span style="font-size: 0.95rem; font-weight: 700; color: #374151;">
-                                    Strength: <span id="strength-label" style="color: #7B61FF; font-weight: 800;">Strong</span>
+                                    Kekuatan: <span id="strength-label" style="color: #7B61FF; font-weight: 800;">Kuat</span>
                                 </span>
                                 <span id="score-badge" style="font-size: 0.75rem; font-weight: 800; background: rgba(123, 97, 255, 0.15);
                                              color: #7B61FF; padding: 0.25rem 0.75rem; border-radius: 9999px;">
@@ -267,7 +267,7 @@ body {
                         {{-- Crack Time Info --}}
                         <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #4B5563; font-weight: 600; margin-top: 0.25rem;">
                             <i data-lucide="clock" style="width: 16px; height: 16px; color: #7B61FF;"></i>
-                            <span>Estimated time to crack: <span id="crack-time" style="font-weight: 800; color: #111827;">400 years</span> <span style="font-weight: 500; color: #6B7280;">(Brute force)</span></span>
+                            <span>Estimasi waktu peretasan: <span id="crack-time" style="font-weight: 800; color: #111827;">400 tahun</span> <span style="font-weight: 500; color: #6B7280;">(Brute force)</span></span>
                         </div>
 
                         {{-- Action Button --}}
@@ -277,7 +277,7 @@ body {
                                 onmouseover="this.style.backgroundColor='#6366F1'; this.style.transform='translateY(-1px)';"
                                 onmouseout="this.style.backgroundColor='#7B61FF'; this.style.transform='none';">
                             <i data-lucide="shield-check" style="width: 20px; height: 20px;"></i>
-                            SECURE THIS PASSWORD
+                            AMANKAN SANDI INI
                         </button>
                     </div>
 
@@ -291,7 +291,7 @@ body {
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                             <h3 style="font-size: 1.1rem; font-weight: 800; color: #7B61FF; margin: 0;">Pro Cyber-Tip</h3>
                             <p style="font-size: 0.875rem; color: #4B5563; line-height: 1.6; margin: 0;">
-                                Instead of complex passwords like <strong style="color: #111827; font-family: monospace; font-size: 0.95rem;">"P@ssw0rd123"</strong>, try using a <strong>Passphrase</strong>. Four random words like <strong style="color: #7B61FF; font-family: monospace; font-size: 0.95rem;">"BlueGuitarMountainCoffee"</strong> are much harder for computers to crack but easier for you to remember!
+                                Daripada sandi kompleks seperti <strong style="color: #111827; font-family: monospace; font-size: 0.95rem;">"P@ssw0rd123"</strong>, cobalah menggunakan <strong>Passphrase</strong>. Empat kata acak seperti <strong style="color: #7B61FF; font-family: monospace; font-size: 0.95rem;">"GitarBiruKopiGunung"</strong> jauh lebih sulit untuk diretas oleh komputer namun lebih mudah untuk Anda ingat!
                             </p>
                         </div>
                     </div>
@@ -305,7 +305,7 @@ body {
                     <div class="card-primary" style="gap: 1.25rem;">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <i data-lucide="list-checks" style="width: 20px; height: 20px; color: #7B61FF;"></i>
-                            <h3 style="font-size: 1.15rem; font-weight: 800; color: #111827; margin: 0;">Requirements</h3>
+                            <h3 style="font-size: 1.15rem; font-weight: 800; color: #111827; margin: 0;">Persyaratan</h3>
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
@@ -323,8 +323,8 @@ body {
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; gap: 0.15rem;">
-                                    <span class="title" style="font-size: 0.85rem; font-weight: 700;">At least 12 characters</span>
-                                    <span class="desc" style="font-size: 0.75rem; opacity: 0.8;">Longer is always better.</span>
+                                    <span class="title" style="font-size: 0.85rem; font-weight: 700;">Minimal 12 karakter</span>
+                                    <span class="desc" style="font-size: 0.75rem; opacity: 0.8;">Lebih panjang lebih baik.</span>
                                 </div>
                             </div>
 
@@ -342,8 +342,8 @@ body {
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; gap: 0.15rem;">
-                                    <span class="title" style="font-size: 0.85rem; font-weight: 700;">Numbers (0-9)</span>
-                                    <span class="desc" style="font-size: 0.75rem; opacity: 0.8;">Includes at least one digit.</span>
+                                    <span class="title" style="font-size: 0.85rem; font-weight: 700;">Angka (0-9)</span>
+                                    <span class="desc" style="font-size: 0.75rem; opacity: 0.8;">Memuat setidaknya satu angka.</span>
                                 </div>
                             </div>
 
@@ -361,8 +361,8 @@ body {
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; gap: 0.15rem;">
-                                    <span class="title" style="font-size: 0.85rem; font-weight: 700;">Special characters</span>
-                                    <span class="desc" style="font-size: 0.75rem; opacity: 0.8;">Symbols like ! @ # $ %</span>
+                                    <span class="title" style="font-size: 0.85rem; font-weight: 700;">Karakter khusus</span>
+                                    <span class="desc" style="font-size: 0.75rem; opacity: 0.8;">Simbol seperti ! @ # $ %</span>
                                 </div>
                             </div>
 
@@ -380,8 +380,8 @@ body {
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; gap: 0.15rem;">
-                                    <span class="title" style="font-size: 0.85rem; font-weight: 700;">Mixed casing</span>
-                                    <span class="desc" style="font-size: 0.75rem; opacity: 0.8;">Upper and lowercase letters.</span>
+                                    <span class="title" style="font-size: 0.85rem; font-weight: 700;">Kombinasi huruf</span>
+                                    <span class="desc" style="font-size: 0.75rem; opacity: 0.8;">Huruf besar dan kecil.</span>
                                 </div>
                             </div>
 
@@ -399,8 +399,8 @@ body {
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; gap: 0.15rem;">
-                                    <span class="title" style="font-size: 0.85rem; font-weight: 700;">No common patterns</span>
-                                    <span class="desc" style="font-size: 0.75rem; opacity: 0.8;">Avoid "123" or "qwerty".</span>
+                                    <span class="title" style="font-size: 0.85rem; font-weight: 700;">Tanpa pola umum</span>
+                                    <span class="desc" style="font-size: 0.75rem; opacity: 0.8;">Hindari "123" atau "qwerty".</span>
                                 </div>
                             </div>
                         </div>
@@ -413,7 +413,7 @@ body {
                             <img src="{{ asset('images/every_layer_counts.png') }}" style="width: 100%; height: 100%; object-fit: contain; padding: 1rem;" alt="Every layer counts illustration">
                         </div>
                         <div style="padding: 1.5rem; text-align: center;">
-                            <p style="font-size: 0.95rem; font-weight: 700; color: #FFFFFF; margin: 0; letter-spacing: 0.02em;">Every layer counts.</p>
+                            <p style="font-size: 0.95rem; font-weight: 700; color: #FFFFFF; margin: 0; letter-spacing: 0.02em;">Setiap lapisan keamanan sangat penting.</p>
                         </div>
                     </div>
 
@@ -423,7 +423,7 @@ body {
 
             {{-- Bottom Section (Smart Password Habits) --}}
             <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.5rem;">
-                <h2 style="font-size: 1.5rem; font-weight: 800; color: #111827; letter-spacing: -0.02em; margin: 0;">Smart Password Habits</h2>
+                <h2 style="font-size: 1.5rem; font-weight: 800; color: #111827; letter-spacing: -0.02em; margin: 0;">Kebiasaan Sandi Cerdas</h2>
 
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
 
@@ -433,9 +433,9 @@ body {
                                     display: flex; align-items: center; justify-content: center;">
                             <i data-lucide="key" style="width: 18px; height: 18px; color: #7B61FF;"></i>
                         </div>
-                        <h3 style="font-size: 1.1rem; font-weight: 800; color: #111827; margin: 0.25rem 0 0;">Use a Manager</h3>
+                        <h3 style="font-size: 1.1rem; font-weight: 800; color: #111827; margin: 0.25rem 0 0;">Gunakan Pengelola Sandi</h3>
                         <p style="font-size: 0.85rem; color: #6B7280; line-height: 1.6; margin: 0;">
-                            Don't memorize 50 passwords. Use a secure manager to store them in an encrypted vault.
+                            Jangan menghafal 50 sandi. Gunakan pengelola sandi untuk menyimpannya di brankas terenkripsi.
                         </p>
                     </div>
 
@@ -445,9 +445,9 @@ body {
                                     display: flex; align-items: center; justify-content: center;">
                             <i data-lucide="smartphone" style="width: 18px; height: 18px; color: #7B61FF;"></i>
                         </div>
-                        <h3 style="font-size: 1.1rem; font-weight: 800; color: #111827; margin: 0.25rem 0 0;">Enable MFA</h3>
+                        <h3 style="font-size: 1.1rem; font-weight: 800; color: #111827; margin: 0.25rem 0 0;">Aktifkan MFA</h3>
                         <p style="font-size: 0.85rem; color: #6B7280; line-height: 1.6; margin: 0;">
-                            Multi-Factor Authentication is your best second line of defense against unauthorized logins.
+                            Autentikasi Multi-Faktor adalah garis pertahanan kedua terbaik Anda dari login tidak sah.
                         </p>
                     </div>
 
@@ -457,9 +457,9 @@ body {
                                     display: flex; align-items: center; justify-content: center;">
                             <i data-lucide="rotate-cw" style="width: 18px; height: 18px; color: #D97706;"></i>
                         </div>
-                        <h3 style="font-size: 1.1rem; font-weight: 800; color: #111827; margin: 0.25rem 0 0;">Rotate Wisely</h3>
+                        <h3 style="font-size: 1.1rem; font-weight: 800; color: #111827; margin: 0.25rem 0 0;">Ganti Secara Bijak</h3>
                         <p style="font-size: 0.85rem; color: #6B7280; line-height: 1.6; margin: 0;">
-                            Change your password immediately if you suspect a breach, but avoid unnecessary frequent changes.
+                            Ganti sandi Anda segera jika curiga terjadi kebocoran, tapi hindari mengganti terlalu sering tanpa alasan.
                         </p>
                     </div>
 
@@ -478,15 +478,15 @@ body {
             <i data-lucide="shield-check" style="width: 30px; height: 30px; color: #10B981;"></i>
         </div>
         <div style="display: flex; flex-direction: column; gap: 6px;">
-            <h3 style="font-size: 1.35rem; font-weight: 800; color: #111827; margin: 0;">Fortress Secured!</h3>
+            <h3 style="font-size: 1.35rem; font-weight: 800; color: #111827; margin: 0;">Keamanan Terjaga!</h3>
             <p style="font-size: 0.875rem; color: #6B7280; line-height: 1.5; margin: 0;">
-                Your password is copied and ready to protect your accounts. Make sure to save it safely.
+                Sandi Anda disalin dan siap melindungi akun Anda. Pastikan menyimpannya dengan aman.
             </p>
         </div>
         <button id="modal-close-btn" type="button" style="background: #111827; color: #FFFFFF; font-weight: 700; font-size: 0.875rem;
                                padding: 0.75rem 2.25rem; border-radius: 0.75rem; border: none; cursor: pointer; transition: background-color 0.2s; width: 100%; margin-top: 0.5rem;"
                 onmouseover="this.style.backgroundColor='#1F2937'" onmouseout="this.style.backgroundColor='#111827'">
-            Awesome!
+            Luar Biasa!
         </button>
     </div>
 </div>
@@ -494,7 +494,7 @@ body {
 {{-- Toast Notification --}}
 <div class="custom-toast" id="clipboard-toast">
     <i data-lucide="copy" style="width: 18px; height: 18px;"></i>
-    <span>Password copied to clipboard!</span>
+    <span>Sandi disalin ke clipboard!</span>
 </div>
 
 <div id="mobile-sidebar-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:25;" onclick="document.getElementById('mobile-drawer-toggle').click();"></div>
@@ -543,11 +543,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Password strength levels definition
     const levels = [
-        { label: 'Very Weak', color: '#EF4444', activeSegments: 1 },
-        { label: 'Weak', color: '#F59E0B', activeSegments: 2 },
-        { label: 'Medium', color: '#3B82F6', activeSegments: 3 },
-        { label: 'Strong', color: '#7B61FF', activeSegments: 4 },
-        { label: 'Very Strong', color: '#10B981', activeSegments: 4 }
+        { label: 'Sangat Lemah', color: '#EF4444', activeSegments: 1 },
+        { label: 'Lemah', color: '#F59E0B', activeSegments: 2 },
+        { label: 'Sedang', color: '#3B82F6', activeSegments: 3 },
+        { label: 'Kuat', color: '#7B61FF', activeSegments: 4 },
+        { label: 'Sangat Kuat', color: '#10B981', activeSegments: 4 }
     ];
 
     // Requirement UI elements
@@ -582,34 +582,34 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function calculateCrackTime(entropy) {
-        if (entropy === 0) return 'Instant';
+        if (entropy === 0) return 'Instan';
 
         // Attack scenario: offline cracking rate (200 billion hashes/second)
         const guessRate = 200_000_000_000;
         const totalGuesses = Math.pow(2, entropy - 1);
         const seconds = totalGuesses / guessRate;
 
-        if (seconds < 1) return 'Instant';
-        if (seconds < 60) return `${Math.round(seconds)} seconds`;
+        if (seconds < 1) return 'Instan';
+        if (seconds < 60) return `${Math.round(seconds)} detik`;
         
         const minutes = seconds / 60;
-        if (minutes < 60) return `${Math.round(minutes)} minutes`;
+        if (minutes < 60) return `${Math.round(minutes)} menit`;
         
         const hours = minutes / 60;
-        if (hours < 24) return `${Math.round(hours)} hours`;
+        if (hours < 24) return `${Math.round(hours)} jam`;
         
         const days = hours / 24;
-        if (days < 30) return `${Math.round(days)} days`;
+        if (days < 30) return `${Math.round(days)} hari`;
         
         const months = days / 30.4375;
-        if (months < 12) return `${Math.round(months)} months`;
+        if (months < 12) return `${Math.round(months)} bulan`;
         
         const years = days / 365.25;
-        if (years < 100) return `${Math.round(years)} years`;
-        if (years < 1000) return `${Math.round(years / 10) * 10} years`;
-        if (years < 1000000) return `${Math.round(years / 100) * 100} years`;
-        if (years < 1000000000) return `${Math.round(years / 1000000)} million years`;
-        return `${Math.round(years / 1000000000)} billion years`;
+        if (years < 100) return `${Math.round(years)} tahun`;
+        if (years < 1000) return `${Math.round(years / 10) * 10} tahun`;
+        if (years < 1000000) return `${Math.round(years / 100) * 100} tahun`;
+        if (years < 1000000000) return `${Math.round(years / 1000000)} juta tahun`;
+        return `${Math.round(years / 1000000000)} miliar tahun`;
     }
 
     function analyze() {

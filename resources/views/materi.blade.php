@@ -1,11 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    .filter-item-hover {
+        transition: background-color 0.2s ease, color 0.2s ease;
+        padding: 0.5rem;
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+        border-radius: 0.375rem;
+    }
+    .filter-item-hover:hover {
+        background-color: #F3F4F6; /* Tailwind gray-100 */
+    }
+    .filter-item-active {
+        background-color: #EEF2FF !important; /* Tailwind indigo-50 */
+    }
+</style>
 <div style="display:flex; min-height:100vh; background:#F9FAFB;">
     @include('partials.sidebar', ['active' => 'materi'])
 
     <main style="flex:1; margin-left:260px; display:flex; flex-direction:column; padding-bottom:5rem;">
-        @include('partials.header', ['placeholder' => 'Cari materi keamanan digital...'])
+        @include('partials.header', ['placeholder' => 'Cari materi keamanan digital...', 'showSearch' => true])
 
         <!-- Materi Content -->
         <div class="p-8 flex-col gap-6">
@@ -20,17 +35,12 @@
                     <h2 class="font-bold" style="font-size: 2.25rem; line-height: 1.2; margin-bottom: 0.5rem;">Eksplorasi Materi</h2>
                     <p class="text-muted">Tingkatkan pertahanan digitalmu dengan kurikulum terstruktur kami.</p>
                 </div>
-                <button class="btn flex items-center gap-2" style="background-color: rgba(139, 92, 246, 0.1); color: var(--primary); border: 1px solid rgba(139, 92, 246, 0.2);">
-                    <i data-lucide="award" style="width: 18px; height: 18px;"></i>
-                    Pro Access
-                </button>
             </div>
-
-            <div class="flex gap-6 mt-4" style="align-items: flex-start;">
-                <!-- Left Sidebar / Filters -->
-                <form id="filterForm" action="{{ route('materi') }}" method="GET" class="flex-col gap-6" style="width: 250px; flex-shrink: 0; display: flex;">
+            <div class="flex-col gap-6 mt-4">
+                <!-- Top Filters -->
+                <form id="filterForm" action="{{ route('materi') }}" method="GET" class="flex gap-6 w-full" style="align-items: stretch; flex-wrap: wrap;">
                     <!-- Kategori Utama -->
-                    <div class="card" style="padding: 1rem;">
+                    <div class="card flex-1" style="padding: 1.25rem; min-width: 250px;">
                         <h3 class="text-xs font-bold text-muted tracking-wider" style="margin-bottom: 0.75rem;">KATEGORI UTAMA</h3>
                         <div class="flex-col gap-3">
                             @php
@@ -42,10 +52,10 @@
                                 ];
                             @endphp
                             @foreach($categories as $cat)
-                            <label class="flex items-center gap-3 cursor-pointer p-2 rounded hover:bg-gray-50 {{ request('category') == $cat['name'] ? 'bg-indigo-50 text-primary' : 'text-muted' }}" style="transition: all 0.2s;">
+                            <label class="flex items-center gap-3 cursor-pointer filter-item-hover {{ request('category') == $cat['name'] ? 'filter-item-active text-primary' : 'text-muted' }}">
                                 <input type="radio" name="category" value="{{ $cat['name'] }}" class="hidden" style="display:none;" onchange="document.getElementById('filterForm').submit()" {{ request('category') == $cat['name'] ? 'checked' : '' }}>
                                 <i data-lucide="{{ $cat['icon'] }}" style="width: 20px; height: 20px; {{ request('category') == $cat['name'] ? 'stroke-width: 2.5; color: var(--primary);' : '' }}"></i>
-                                <span style="font-size: 1.05rem; {{ request('category') == $cat['name'] ? 'font-weight: 700; color: #000;' : 'font-weight: 500;' }}">{{ $cat['name'] }}</span>
+                                <span style="font-size: 1.05rem; {{ request('category') == $cat['name'] ? 'font-weight: 700; color: var(--primary);' : 'font-weight: 500;' }}">{{ $cat['name'] }}</span>
                             </label>
                             @endforeach
                             @if(request('category'))
@@ -55,18 +65,18 @@
                     </div>
 
                     <!-- Tingkat Kesulitan -->
-                    <div class="card" style="padding: 1rem;">
+                    <div class="card flex-1" style="padding: 1.25rem; min-width: 250px;">
                         <h3 class="text-xs font-bold text-muted tracking-wider" style="margin-bottom: 0.75rem;">TINGKAT KESULITAN</h3>
                         <div class="flex-col gap-3">
-                            <label class="flex items-center gap-3 cursor-pointer">
+                            <label class="flex items-center gap-3 cursor-pointer filter-item-hover">
                                 <input type="checkbox" name="level[]" value="EASY" onchange="document.getElementById('filterForm').submit()" class="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" style="accent-color: var(--primary);" {{ in_array('EASY', request('level', [])) ? 'checked' : '' }}>
                                 <span class="text-sm font-medium text-gray-700">Mudah (Easy)</span>
                             </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
+                            <label class="flex items-center gap-3 cursor-pointer filter-item-hover">
                                 <input type="checkbox" name="level[]" value="MEDIUM" onchange="document.getElementById('filterForm').submit()" class="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" style="accent-color: var(--primary);" {{ in_array('MEDIUM', request('level', [])) ? 'checked' : '' }}>
                                 <span class="text-sm font-medium text-gray-700">Menengah (Medium)</span>
                             </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
+                            <label class="flex items-center gap-3 cursor-pointer filter-item-hover">
                                 <input type="checkbox" name="level[]" value="HARD" onchange="document.getElementById('filterForm').submit()" class="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" style="accent-color: var(--primary);" {{ in_array('HARD', request('level', [])) ? 'checked' : '' }}>
                                 <span class="text-sm font-medium text-gray-700">Sulit (Hard)</span>
                             </label>
@@ -74,41 +84,24 @@
                     </div>
 
                     <!-- Cyber-Tip -->
-                    <div class="card" style="padding: 1.25rem; background-color: #F5F3FF; border: 1px solid rgba(139, 92, 246, 0.1);">
+                    <div class="card flex-1" style="padding: 1.25rem; background-color: #F5F3FF; border: 1px solid rgba(139, 92, 246, 0.1); min-width: 250px;">
                         <div class="flex items-center gap-2 text-primary font-bold mb-3">
                             <i data-lucide="lightbulb" style="width: 18px; height: 18px;"></i>
                             <span>Cyber-Tip</span>
                         </div>
-                        <p class="text-xs leading-relaxed" style="color: #4C1D95; opacity: 0.9;">
+                        <p class="text-sm leading-relaxed" style="color: #4C1D95; opacity: 0.9;">
                             Gunakan autentikasi dua faktor (2FA) di setiap akun pentingmu untuk lapisan keamanan ekstra!
                         </p>
                     </div>
                 </form>
 
-                <!-- Right Grid / Courses -->
-                <div style="flex: 1;">
+                <!-- Grid / Courses -->
+                <div style="width: 100%; margin-top: 1rem;">
                     <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem;">
                         
                         @forelse($materis as $materi)
                         <!-- Card -->
-                        <div class="card p-0 overflow-hidden flex-col" style="border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; {{ $materi->is_premium ? 'opacity: 0.85; background-color: #F8FAFC;' : '' }}" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 25px -5px rgba(0, 0, 0, 0.1)'" onmouseout="this.style.transform='none'; this.style.boxShadow='0 1px 3px 0 rgba(0, 0, 0, 0.1)'">
-                            @if($materi->is_premium)
-                            <div style="height: 140px; background-color: #F1F5F9; position: relative; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #E2E8F0;">
-                                <div style="position: absolute; top: 0.75rem; left: 0.75rem; background-color: #E2E8F0; color: #64748B; font-size: 0.65rem; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 9999px; letter-spacing: 0.05em;">LOCKED</div>
-                                <i data-lucide="lock" style="width: 40px; height: 40px; color: #CBD5E1;"></i>
-                            </div>
-                            <div class="p-5 flex-col flex-1">
-                                <div class="flex items-center gap-1 mb-2">
-                                    <i data-lucide="star" style="width: 14px; height: 14px; color: #F59E0B; fill: #F59E0B;"></i>
-                                    <span style="font-size: 0.65rem; font-weight: 800; color: #F59E0B; letter-spacing: 0.05em;">PREMIUM CONTENT</span>
-                                </div>
-                                <h3 class="mb-2 leading-tight" style="font-size: 1.25rem; font-weight: 800; color: #000;">{{ $materi->judul }}</h3>
-                                <p class="text-sm mb-6 flex-1 line-clamp-2" style="color: #6B7280; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.6;">{{ $materi->deskripsi }}</p>
-                                <button class="btn w-full flex items-center justify-center gap-2 mt-auto" style="background-color: white; border: 1px solid var(--primary); color: var(--primary);">
-                                    Upgrade Pro <i data-lucide="zap" style="width: 16px; height: 16px;"></i>
-                                </button>
-                            </div>
-                            @else
+                        <div class="card p-0 overflow-hidden flex-col" style="border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 25px -5px rgba(0, 0, 0, 0.1)'" onmouseout="this.style.transform='none'; this.style.boxShadow='0 1px 3px 0 rgba(0, 0, 0, 0.1)'">
                             <div style="height: 140px; background: {{ $materi->level == 'EASY' ? 'linear-gradient(to bottom, #0F172A, #1E293B)' : ($materi->level == 'MEDIUM' ? 'linear-gradient(to bottom, #18181B, #27272A)' : '#DFE7FD') }}; position: relative; display: flex; align-items: center; justify-content: center;">
                                 <div style="position: absolute; top: 0.75rem; left: 0.75rem; background-color: {{ $materi->level == 'EASY' ? 'var(--success-bg)' : ($materi->level == 'MEDIUM' ? 'var(--warning-bg)' : '#FEE2E2') }}; color: {{ $materi->level == 'EASY' ? 'var(--success)' : ($materi->level == 'MEDIUM' ? 'var(--warning)' : '#EF4444') }}; font-size: 0.65rem; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 9999px; letter-spacing: 0.05em;">{{ $materi->level }}</div>
                                 <div style="width: 64px; height: 64px; border-radius: 50%; border: 2px solid {{ $materi->level == 'EASY' ? 'rgba(56, 189, 248, 0.5)' : ($materi->level == 'MEDIUM' ? 'rgba(217, 70, 239, 0.5)' : 'transparent') }}; display: flex; align-items: center; justify-content: center; {{ $materi->level != 'HARD' ? 'box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);' : '' }}">
@@ -129,7 +122,6 @@
                                     Mulai Belajar <i data-lucide="play-circle" style="width: 18px; height: 18px;"></i>
                                 </a>
                             </div>
-                            @endif
                         </div>
                         @empty
                         <div class="col-span-3 text-center py-12">

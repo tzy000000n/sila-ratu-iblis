@@ -150,3 +150,78 @@ aside.sidebar {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* Dark Theme Overrides */
+html.dark-theme {
+  --background: #0F172A !important;
+  --surface: #1E293B !important;
+  --text-main: #F8FAFC !important;
+  --text-muted: #94A3B8 !important;
+  --border: #334155 !important;
+  --success-bg: rgba(16, 185, 129, 0.2) !important;
+  --warning-bg: rgba(245, 158, 11, 0.2) !important;
+  --danger-bg: rgba(239, 68, 68, 0.2) !important;
+  background-color: var(--background) !important;
+  color: var(--text-main) !important;
+}
+html.dark-theme body {
+  background-color: var(--background) !important;
+  color: var(--text-main) !important;
+}
+html.dark-theme [style*="background: #FFFFFF"],
+html.dark-theme [style*="background:#FFFFFF"],
+html.dark-theme [style*="background: #fff"],
+html.dark-theme [style*="background:#fff"],
+html.dark-theme [style*="background: white"],
+html.dark-theme [style*="background:white"] {
+  background-color: var(--surface) !important;
+}
+html.dark-theme [style*="background: #F9FAFB"],
+html.dark-theme [style*="background:#F9FAFB"],
+html.dark-theme [style*="background: #f9fafb"],
+html.dark-theme [style*="background:#f9fafb"],
+html.dark-theme [style*="background: #F3F4F6"],
+html.dark-theme [style*="background:#F3F4F6"] {
+  background-color: var(--background) !important;
+}
+html.dark-theme [style*="color: #111827"],
+html.dark-theme [style*="color:#111827"],
+html.dark-theme [style*="color: #374151"],
+html.dark-theme [style*="color:#374151"],
+html.dark-theme [style*="color: #000"],
+html.dark-theme [style*="color:#000"] {
+  color: var(--text-main) !important;
+}
+html.dark-theme [style*="color: #6B7280"],
+html.dark-theme [style*="color:#6B7280"],
+html.dark-theme [style*="color: #4B5563"],
+html.dark-theme [style*="color:#4B5563"] {
+  color: var(--text-muted) !important;
+}
+html.dark-theme [style*="border: 1px solid #E5E7EB"],
+html.dark-theme [style*="border:1px solid #E5E7EB"],
+html.dark-theme [style*="border-bottom: 1px solid #E5E7EB"],
+html.dark-theme [style*="border-bottom:1px solid #E5E7EB"],
+html.dark-theme [style*="border-right: 1px solid #E5E7EB"],
+html.dark-theme [style*="border-right:1px solid #E5E7EB"],
+html.dark-theme [style*="border: 1px solid #D1D5DB"],
+html.dark-theme [style*="border:1px solid #D1D5DB"],
+html.dark-theme [style*="border-color: #E5E7EB"],
+html.dark-theme [style*="border-color:#E5E7EB"] {
+  border-color: var(--border) !important;
+}
+html.dark-theme input, 
+html.dark-theme textarea {
+  background-color: var(--background) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+}
+html.dark-theme header,
+html.dark-theme aside {
+  background-color: rgba(30, 41, 59, 0.95) !important;
+  border-color: var(--border) !important;
+}
+html.dark-theme .card {
+  background-color: var(--surface) !important;
+  border-color: var(--border) !important;
+}

@@ -18,8 +18,8 @@
             {{-- Breadcrumb and Module Title --}}
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E5E7EB; padding-bottom: 1rem;">
                 <div>
-                    <h2 style="font-size: 1.85rem; font-weight: 800; color: #111827; margin-bottom: 4px;">Fundamen Keamanan Siber</h2>
-                    <p style="font-size: 0.9rem; color: #6B7280; font-weight: 500;">Modul 1: Pengenalan Ancaman Digital</p>
+                    <h2 style="font-size: 1.85rem; font-weight: 800; color: #111827; margin-bottom: 4px;">{{ isset($materi) ? $materi->judul : 'Fundamen Keamanan Siber' }}</h2>
+                    <p style="font-size: 0.9rem; color: #6B7280; font-weight: 500;">{{ isset($materi) ? 'Kategori: ' . $materi->kategori : 'Modul 1: Pengenalan Ancaman Digital' }}</p>
                 </div>
                 <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
                     <span style="font-size: 0.75rem; font-weight: 800; color: #7b61ff; background: rgba(123,97,255,0.1); padding: 4px 12px; border-radius: 9999px; letter-spacing: 0.05em;">SEDANG BERLANGSUNG</span>
@@ -165,321 +165,50 @@
 </style>
 
 <script>
-    // Quiz pools mapped by material slug
-    const quizPools = {
-        'dasar-keamanan-digital': [
-            {
-                id: 1,
-                question: "Di bawah ini, pilar manakah dari CIA Triad yang bertugas memastikan bahwa data tidak diubah, dimodifikasi, atau dimanipulasi oleh pihak yang tidak berwenang tanpa izin?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Confidentiality (Kerahasiaan)" },
-                    { key: "B", text: "Integrity (Integritas)" },
-                    { key: "C", text: "Availability (Ketersediaan)" },
-                    { key: "D", text: "Authentication (Otentikasi)" }
-                ],
-                tipTitle: "Cyber-Tip: Pilar CIA Triad!",
-                tipDesc: "Menurut modul 'Dasar Keamanan Digital', Integrity menjamin data tetap utuh tanpa modifikasi ilegal, Confidentiality menjaga kerahasiaan akses data, dan Availability memastikan kesiapan sistem.",
-                userAnswer: null
-            },
-            {
-                id: 2,
-                question: "Berasal dari kata bahasa Inggris apakah istilah 'Phishing' siber itu, yang mencerminkan cara pelaku menebar umpan digital?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Fishing (Memancing)" },
-                    { key: "B", text: "Pushing (Mendorong)" },
-                    { key: "C", text: "Phoning (Menelepon)" },
-                    { key: "D", text: "Finishing (Menyelesaikan)" }
-                ],
-                tipTitle: "Cyber-Tip: Memancing Umpan!",
-                tipDesc: "Nama Phishing berasal dari kata 'fishing' (memancing), karena penyerang menyebarkan 'umpan' digital dengan harapan ada korban yang terpancing membocorkan informasi sensitif.",
-                userAnswer: null
-            },
-            {
-                id: 3,
-                question: "Manakah pilar CIA Triad yang memastikan bahwa sistem, layanan, dan data selalu dapat diakses oleh pihak yang berwenang kapan saja dibutuhkan?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Confidentiality" },
-                    { key: "B", text: "Integrity" },
-                    { key: "C", text: "Availability" },
-                    { key: "D", text: "Accessibility" }
-                ],
-                tipTitle: "Cyber-Tip: Pilar Ketersediaan!",
-                tipDesc: "Availability memastikan sistem, server, dan data tetap online dan berfungsi dengan baik saat diakses oleh pihak yang memiliki hak resmi.",
-                userAnswer: null
-            },
-            {
-                id: 4,
-                question: "Pernyataan surel 'akun kamu telah dikunci, klik di sini dalam 24 jam untuk verifikasi' adalah salah satu ciri phishing berupa...",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Kesalahan ejaan yang disengaja" },
-                    { key: "B", text: "Pemberian rasa urgensi yang berlebihan" },
-                    { key: "C", text: "Alamat email pengirim yang tepercaya" },
-                    { key: "D", text: "Sistem enkripsi database lokal" }
-                ],
-                tipTitle: "Cyber-Tip: Tekanan Urgensi!",
-                tipDesc: "Penyerang menyebarkan ancaman urgensi palsu agar korban merasa cemas, panik, dan segera mengeklik tombol tanpa melakukan pemeriksaan rasional.",
-                userAnswer: null
-            },
-            {
-                id: 5,
-                question: "Di bawah ini yang merupakan salah satu dari tiga pilar utama CIA Triad adalah...",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Confidentiality (Kerahasiaan)" },
-                    { key: "B", text: "Complexity (Kompleksitas)" },
-                    { key: "C", text: "Connectivity (Konektivitas)" },
-                    { key: "D", text: "Centralization (Sentralisasi)" }
-                ],
-                tipTitle: "Cyber-Tip: 3 Pilar Utama!",
-                tipDesc: "Tiga pilar utama dalam keamanan informasi adalah CIA: Confidentiality (Kerahasiaan), Integrity (Integritas), dan Availability (Ketersediaan).",
-                userAnswer: null
-            }
-        ],
-        'seni-mengelola-password': [
-            {
-                id: 1,
-                question: "Berdasarkan modul 'Seni Mengelola Password', teknik apakah yang menyarankan untuk menggabungkan 4-5 kata acak yang tidak saling berhubungan untuk membuat kata sandi?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Teknik Leet Speak (Angka & Huruf)" },
-                    { key: "B", text: "Teknik Autentikasi Biometrik" },
-                    { key: "C", text: "Teknik Passphrase (Kalimat Sandi)" },
-                    { key: "D", text: "Teknik Brute Force" }
-                ],
-                tipTitle: "Cyber-Tip: Gunakan Passphrase!",
-                tipDesc: "Teknik passphrase (seperti 'Kucing-Biru-Terbang-2024!') menggabungkan kata acak yang mudah Anda ingat secara visual, namun sangat sulit diretas oleh robot peretas.",
-                userAnswer: null
-            },
-            {
-                id: 2,
-                question: "Berapa panjang minimal karakter pembuatan kata sandi (password) yang disarankan dalam modul agar aman dari serangan penebakan sandi?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Minimal 6 karakter" },
-                    { key: "B", text: "Minimal 8 karakter" },
-                    { key: "C", text: "Minimal 12 karakter" },
-                    { key: "D", text: "Minimal 16 karakter" }
-                ],
-                tipTitle: "Cyber-Tip: Panjang Karakter!",
-                tipDesc: "Semakin panjang sebuah password, semakin eksponensial kombinasi yang harus dicoba peretas. Modul menyarankan panjang kata sandi minimal 12 karakter.",
-                userAnswer: null
-            },
-            {
-                id: 3,
-                question: "Manakah di antara pilihan kata sandi berikut yang menggambarkan jenis sandi berkategori 'Kuat' dalam modul?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "password123" },
-                    { key: "B", text: "P@ssw0rd!" },
-                    { key: "C", text: "Kucing-Biru-2024!" },
-                    { key: "D", text: "12345678" }
-                ],
-                tipTitle: "Cyber-Tip: Sandi Kuat!",
-                tipDesc: "Kata sandi yang menggunakan passphrase kombinasi kata acak dengan simbol dan angka ('Kucing-Biru-2024!') dinilai jauh lebih kuat dibanding leetspeak pendek biasa.",
-                userAnswer: null
-            },
-            {
-                id: 4,
-                question: "Sesuai petunjuk anatomi kata sandi di modul, informasi personal manakah yang sebaiknya DIBUANG dari password Anda?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Kombinasi simbol acak" },
-                    { key: "B", text: "Huruf kapital di tengah kata" },
-                    { key: "C", text: "Kombinasi kata benda acak" },
-                    { key: "D", text: "Tanggal lahir, nama hewan peliharaan, atau nama pribadi" }
-                ],
-                tipTitle: "Cyber-Tip: Hindari Info Pribadi!",
-                tipDesc: "Hacker bisa melakukan serangan 'Dictionary Attack' dengan menyusun database nama, tanggal lahir, dan info personal Anda dari sosial mediamu untuk menebak password.",
-                userAnswer: null
-            },
-            {
-                id: 5,
-                question: "Mengapa disarankan untuk menggunakan kata sandi (password) yang unik dan berbeda untuk setiap akun digital Anda?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Supaya peretas tidak bisa menguasai seluruh akun Anda jika salah satu akun mengalami kebocoran data (credential stuffing)." },
-                    { key: "B", text: "Agar sistem operasi komputer berjalan lebih cepat." },
-                    { key: "C", text: "Mencegah virus malware menginfeksi browser lokal." },
-                    { key: "D", text: "Mempercepat proses pemuatan halaman web di internet." }
-                ],
-                tipTitle: "Cyber-Tip: Password Unik!",
-                tipDesc: "Praktik daur ulang password sangat berisiko. Jika satu web database bocor, penyerang otomatis akan mencoba password bocor tersebut di akun-akun penting Anda lainnya.",
-                userAnswer: null
-            }
-        ],
-        'deteksi-serangan-phishing': [
-            {
-                id: 1,
-                question: "Surel (email) yang mengancam bahwa 'akun Anda akan ditutup permanen dalam 24 jam jika tidak segera mengklik tombol verifikasi' memicu bendera merah phishing berupa...",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Kesalahan ejaan yang mencolok" },
-                    { key: "B", text: "Rasa urgensi yang berlebihan" },
-                    { key: "C", text: "Alamat email pengirim yang tepercaya" },
-                    { key: "D", text: "Penggunaan subdomain resmi" }
-                ],
-                tipTitle: "Cyber-Tip: Rasa Urgensi!",
-                tipDesc: "Urgensi yang berlebihan adalah bendera merah phishing utama. Pelaku memanfaatkan kepanikan korban agar bertindak terburu-buru tanpa berpikir logis.",
-                userAnswer: null
-            },
-            {
-                id: 2,
-                question: "Ketika Anda menerima email dengan alamat pengirim 'support@instagram-security.com' alih-alih '@instagram.com', bendera merah phishing apa yang tampak?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Adanya kesalahan tata bahasa" },
-                    { key: "B", text: "Rasa urgensi yang dipaksakan" },
-                    { key: "C", text: "Alamat email pengirim yang aneh dan mencurigakan" },
-                    { key: "D", text: "Tautan mengarah ke HTTPS" }
-                ],
-                tipTitle: "Cyber-Tip: Periksa Domain Pengirim!",
-                tipDesc: "Penyerang sering membuat domain palsu yang menyerupai brand asli guna mengelabui mata Anda yang kurang teliti saat membaca alamat email pengirim.",
-                userAnswer: null
-            },
-            {
-                id: 3,
-                question: "Menurut modul, mengapa kesalahan ketik (typo) dan tata bahasa yang mencolok pada email penting patut dicurigai sebagai phishing?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Karena perusahaan resmi jarang mengirim surel formal dengan kesalahan ejaan yang mencolok." },
-                    { key: "B", text: "Karena server email otomatis memblokir kesalahan ejaan." },
-                    { key: "C", text: "Agar email tersebut lebih mudah terbaca oleh komputer." },
-                    { key: "D", text: "Menunjukkan tingginya enkripsi keamanan pesan." }
-                ],
-                tipTitle: "Cyber-Tip: Bendera Merah Ejaan!",
-                tipDesc: "Surel resmi dari korporasi besar melewati berbagai tahap editing internal. Kesalahan tata bahasa mencolok kerap menjadi petunjuk kuat email dibuat oleh sindikat hacker luar negeri.",
-                userAnswer: null
-            },
-            {
-                id: 4,
-                question: "Tindakan apa yang harus dilakukan sebelum mengeklik tautan dalam surel untuk mendeteksi apakah tautan tersebut mengarah ke situs palsu?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Menyalin tautan ke notepad untuk disimpan." },
-                    { key: "B", text: "Mengarahkan kursor (hover) ke tautan untuk melihat alamat URL sebenarnya yang akan dituju." },
-                    { key: "C", text: "Menutup browser lalu me-restart komputer." },
-                    { key: "D", text: "Langsung mengeklik tombol tersebut secara cepat." }
-                ],
-                tipTitle: "Cyber-Tip: Hover Tautan!",
-                tipDesc: "Fitur hover (mengarahkan kursor tanpa mengeklik) menyingkap tujuan URL asli. Jika teks tertulis 'www.bca.co.id' namun hover-nya mengarah ke 'bca-palsu.net', itu adalah phishing.",
-                userAnswer: null
-            },
-            {
-                id: 5,
-                question: "Apakah tujuan utama penyerang siber menyebarkan email phishing kepada korbannya?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Membantu pengguna meningkatkan kecepatan komputer mereka." },
-                    { key: "B", text: "Memancing dan mencuri informasi pribadi sensitif (seperti password dan data perbankan)." },
-                    { key: "C", text: "Mengiklankan produk software terbaru secara resmi." },
-                    { key: "D", text: "Mengurangi beban kerja jaringan siber kantor." }
-                ],
-                tipTitle: "Cyber-Tip: Tujuan Phishing!",
-                tipDesc: "Phishing adalah taktik manipulatif visual yang menyamar sebagai pihak terpercaya guna memancing data kredensial login atau detail kartu kredit korban.",
-                userAnswer: null
-            }
-        ],
-        'waspada-social-engineering': [
-            {
-                id: 1,
-                question: "Dalam modul 'Waspada Social Engineering', apa yang dimaksud dengan serangan rekayasa sosial (Social Engineering) itu sendiri?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Serangan teknis yang merusak server web secara fisik." },
-                    { key: "B", text: "Seni memanipulasi orang agar mau memberikan informasi rahasia atau melakukan tindakan tertentu." },
-                    { key: "C", text: "Pengamanan sistem komputer menggunakan firewall otomatis." },
-                    { key: "D", text: "Proses pembersihan virus komputer menggunakan software khusus." }
-                ],
-                tipTitle: "Cyber-Tip: Manipulasi Psikologis!",
-                tipDesc: "Social engineering menargetkan psikologi manusia (rasa panik, ingin tahu, sungkan) karena manusia dinilai sebagai titik terlemah dalam rantai keamanan siber.",
-                userAnswer: null
-            },
-            {
-                id: 2,
-                question: "Jika seorang penyerang menipu Anda melalui panggilan telepon dengan berpura-pura menjadi petugas bank resmi, metode rekayasa sosial ini disebut...",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Smishing" },
-                    { key: "B", text: "Vishing (Voice Phishing)" },
-                    { key: "C", text: "Baiting" },
-                    { key: "D", text: "Pretexting" }
-                ],
-                tipTitle: "Cyber-Tip: Kenali Vishing!",
-                tipDesc: "Vishing (Voice Phishing) adalah taktik penipuan suara via telepon. Penyerang biasanya mendesak korban memberikan kode OTP atau nomor PIN dengan alasan keamanan darurat.",
-                userAnswer: null
-            },
-            {
-                id: 3,
-                question: "Menerima pesan singkat (SMS) berisi tautan palsu dengan iming-iming hadiah ratusan juta rupiah atau ancaman pemblokiran akun adalah bentuk serangan...",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Smishing" },
-                    { key: "B", text: "Vishing" },
-                    { key: "C", text: "Baiting" },
-                    { key: "D", text: "Cryptography" }
-                ],
-                tipTitle: "Cyber-Tip: Waspada Smishing!",
-                tipDesc: "Smishing (SMS Phishing) merayu target mengeklik tautan berbahaya dengan memanipulasi perasaan korban lewat media SMS dari nomor acak tak dikenal.",
-                userAnswer: null
-            },
-            {
-                id: 4,
-                question: "Metode rekayasa sosial yang menggunakan iming-iming menggiurkan seperti unduhan konten gratis atau hadiah gratis guna memancing korban disebut...",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Pretexting" },
-                    { key: "B", text: "Baiting" },
-                    { key: "C", text: "Vishing" },
-                    { key: "D", text: "Social Media Spamming" }
-                ],
-                tipTitle: "Cyber-Tip: Kenali Umpan Baiting!",
-                tipDesc: "Baiting memanfaatkan rasa penasaran atau keserakahan manusia. Jangan pernah mengeklik link tawaran gratisan ilegal atau mencurigakan.",
-                userAnswer: null
-            },
-            {
-                id: 5,
-                question: "Menurut penutup modul 'Waspada Social Engineering', apa kunci pertahanan terbaik yang harus kita miliki untuk menghadapi ancaman rekayasa sosial?",
-                type: "PILIHAN GANDA",
-                options: [
-                    { key: "A", text: "Membeli perangkat antivirus premium termahal." },
-                    { key: "B", text: "Memiliki skeptisisme yang sehat dan selalu melakukan verifikasi melalui saluran komunikasi resmi." },
-                    { key: "C", text: "Menolak menggunakan email dan media sosial selamanya." },
-                    { key: "D", text: "Menyalin seluruh password ke dalam file teks di komputer." }
-                ],
-                tipTitle: "Cyber-Tip: Skeptisisme Sehat!",
-                tipDesc: "Selalu cross-check setiap permintaan mendesak dengan menghubungi Call Center resmi instansi terkait, bukan nomor yang diberikan oleh pengirim tak dikenal.",
-                userAnswer: null
-            }
-        ]
-    };
+    // Fetch questions from database relationship
+    const dbQuestions = {!! json_encode($materi->questions ?? []) !!};
+    
+    const quizData = dbQuestions.map((q, index) => {
+        return {
+            id: index + 1,
+            question: q.question,
+            type: "PILIHAN GANDA",
+            options: [
+                { key: "A", text: q.option_a },
+                { key: "B", text: q.option_b },
+                { key: "C", text: q.option_c },
+                { key: "D", text: q.option_d }
+            ],
+            tipTitle: q.tip_title,
+            tipDesc: q.tip_desc,
+            userAnswer: null,
+            correct: q.correct_answer
+        };
+    });
 
-    // Module info details to update breadcrumbs dynamically
-    const moduleNames = {
-        'dasar-keamanan-digital': { title: 'Dasar Keamanan Digital', subtitle: 'Modul 1: Pengenalan Ancaman Digital' },
-        'seni-mengelola-password': { title: 'Seni Mengelola Password', subtitle: 'Modul 2: Anatomi Sandi Kuat & Password Manager' },
-        'deteksi-serangan-phishing': { title: 'Deteksi Serangan Phishing', subtitle: 'Modul 3: Memahami Ciri & Menghindari Phishing' },
-        'waspada-social-engineering': { title: 'Waspada Social Engineering', subtitle: 'Modul 4: Rekayasa Sosial & Eksploitasi Manusia' }
-    };
-
-    // Determine which pool to load based on URL query param
-    const urlParams = new URLSearchParams(window.location.search);
-    const materiSlug = urlParams.get('materi') || 'dasar-keamanan-digital';
-
-    // Set quiz data & module breadcrumbs
-    const quizData = quizPools[materiSlug] || quizPools['dasar-keamanan-digital'];
-    const activeModule = moduleNames[materiSlug] || moduleNames['dasar-keamanan-digital'];
+    // Fallback if no questions found (for empty seeds)
+    if (quizData.length === 0) {
+        quizData.push({
+            id: 1,
+            question: "Belum ada pertanyaan kuis untuk modul ini.",
+            type: "PILIHAN GANDA",
+            options: [
+                { key: "A", text: "-" },
+                { key: "B", text: "-" },
+                { key: "C", text: "-" },
+                { key: "D", text: "-" }
+            ],
+            tipTitle: "Info",
+            tipDesc: "Admin belum mengunggah soal untuk modul ini.",
+            userAnswer: null,
+            correct: "A"
+        });
+    }
 
     let currentQuestionIndex = 0; // Starts from first question
 
     // Init page
     window.addEventListener('DOMContentLoaded', () => {
-        // Dynamically update page titles
-        document.querySelector('h2').innerText = activeModule.title;
-        document.querySelector('h2 + p').innerText = activeModule.subtitle;
         document.getElementById('total-questions-num').innerText = quizData.length;
 
         renderQuestion();
@@ -695,8 +424,35 @@
             : `Apakah Anda yakin ingin menyelesaikan kuis ini? Anda telah menjawab ${answersCount} dari ${quizData.length} pertanyaan.`;
 
         if (auto || confirm(confirmMsg)) {
-            // Redirect to results page
-            window.location.href = "{{ route('hasil') }}";
+            // Calculate Score based on 100 scale
+            let rawScore = 0;
+            quizData.forEach(q => {
+                if (q.userAnswer === q.correct) {
+                    rawScore++;
+                }
+            });
+            let score = Math.round((rawScore / quizData.length) * 100);
+
+            // Post result to API
+            fetch("{{ route('save.result') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    type: "quiz",
+                    reference_id: "{{ $materi->slug }}",
+                    score: score,
+                    max_score: 100
+                })
+            }).then(() => {
+                // Redirect to results page
+                window.location.href = "{{ route('hasil') }}";
+            }).catch(err => {
+                console.error("Error saving result:", err);
+                window.location.href = "{{ route('hasil') }}";
+            });
         } else {
             // Restart timer
             const curTime = document.getElementById('timer-text').innerText.split(':');

@@ -15,10 +15,16 @@
                     ['route' => 'quiz', 'label' => 'Quiz', 'icon' => 'file-question'],
                     ['route' => 'simulasi', 'label' => 'Simulasi', 'icon' => 'play-square'],
                     ['route' => 'hasil', 'label' => 'Hasil', 'icon' => 'bar-chart-2'],
-                    ['route' => '#', 'label' => 'Rekomendasi', 'icon' => 'star'],
-                    ['route' => '#', 'label' => 'Password Checker', 'icon' => 'shield-check'],
-                    ['route' => '#', 'label' => 'Profil', 'icon' => 'user-circle'],
+                    ['route' => 'rekomendasi', 'label' => 'Rekomendasi', 'icon' => 'sparkles'],
+                    ['route' => 'password-checker', 'label' => 'Password Checker', 'icon' => 'shield-check'],
+                    ['route' => 'profile', 'label' => 'Profil', 'icon' => 'user-circle'],
                 ];
+
+
+
+                if (auth()->check() && auth()->user()->role === 'admin') {
+                    array_unshift($navItems, ['route' => 'admin.dashboard', 'label' => 'Admin Panel', 'icon' => 'shield']);
+                }
             @endphp
 
             @foreach($navItems as $item)
@@ -39,42 +45,21 @@
                     <i data-lucide="{{ $item['icon'] }}" style="width:18px;height:18px;flex-shrink:0;"></i> {{ $item['label'] }}
                 </a>
             @endforeach
-
-            <a href="{{ route('rekomendasi') }}"
-               style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem; border-radius:0.75rem;
-                      font-size:0.9rem; font-weight:{{ ($active ?? '') === 'rekomendasi' ? '600' : '500' }};
-                      background:{{ ($active ?? '') === 'rekomendasi' ? 'rgba(123,97,255,0.1)' : 'transparent' }};
-                      color:{{ ($active ?? '') === 'rekomendasi' ? '#7b61ff' : '#6B7280' }};"
-               onmouseover="if('{{ $active ?? '' }}' !== 'rekomendasi') this.style.background='#F3F4F6'"
-               onmouseout="if('{{ $active ?? '' }}' !== 'rekomendasi') this.style.background='transparent'">
-                <i data-lucide="sparkles" style="width:18px;height:18px;flex-shrink:0;"></i> Rekomendasi
-            </a>
-
-            @foreach([['shield-check','Password Checker', route('password-checker'), 'password-checker'], ['user-circle','Profil', route('profile'), 'profil']] as $nav)
-            <a href="{{ $nav[2] }}"
-               style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem; border-radius:0.75rem;
-                      font-size:0.9rem; font-weight:{{ ($active ?? '') === $nav[3] ? '600' : '500' }};
-                      background:{{ ($active ?? '') === $nav[3] ? 'rgba(123,97,255,0.1)' : 'transparent' }};
-                      color:{{ ($active ?? '') === $nav[3] ? '#7b61ff' : '#6B7280' }};"
-               onmouseover="if('{{ $active ?? '' }}' !== '{{ $nav[3] }}') this.style.background='#F3F4F6'"
-               onmouseout="if('{{ $active ?? '' }}' !== '{{ $nav[3] }}') this.style.background='transparent'">
-                <i data-lucide="{{ $nav[0] }}" style="width:18px;height:18px;flex-shrink:0;"></i> {{ $nav[1] }}
-            </a>
-            @endforeach
         </nav>
     </div>
     <div style="padding:1rem 0.75rem; border-top:1px solid #E5E7EB; display:flex; flex-direction:column; gap:4px;">
-        <a href="#"
-           style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                  border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#6B7280;"
-           onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='transparent'">
-            <i data-lucide="settings" style="width:18px;height:18px;flex-shrink:0;"></i> Settings
+        <a href="{{ route('settings') }}" class="nav-item {{ ($active ?? '') == 'settings' ? 'active' : '' }}" style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem; border-radius:0.75rem; text-decoration:none; color:#6B7280;">
+            <i data-lucide="settings" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
+            <span style="font-size: 0.95rem; font-weight: 600;">Pengaturan</span>
         </a>
-        <a href="{{ route('logout') }}"
-           style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem;
-                  border-radius:0.75rem; font-size:0.9rem; font-weight:500; color:#EF4444;"
-           onmouseover="this.style.background='#FEE2E2'" onmouseout="this.style.background='transparent'">
-            <i data-lucide="log-out" style="width:18px;height:18px;flex-shrink:0;"></i> Logout
-        </a>
+
+        <!-- Logout Form -->
+        <form method="POST" action="{{ route('logout') }}" style="margin: 0; padding: 0;">
+            @csrf
+            <button type="submit" class="nav-item" style="display:flex; align-items:center; gap:12px; padding:0.65rem 0.85rem; border-radius:0.75rem; width: 100%; text-align: left; background: none; border: none; cursor: pointer; color: #ef4444; margin-top: 0.5rem; transition: all 0.2s;">
+                <i data-lucide="log-out" style="width: 20px; height: 20px; flex-shrink: 0;"></i>
+                <span style="font-size: 0.95rem; font-weight: 700;">Keluar</span>
+            </button>
+        </form>
     </div>
 </aside>

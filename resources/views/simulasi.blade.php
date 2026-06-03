@@ -251,9 +251,9 @@
             emailSignoff: "<p>Hormat kami,</p><p style='font-weight:700; color:#111827;'>Layanan Pengaman Bank</p>",
             tip: "Petugas bank tidak pernah meminta Kode OTP (One-Time Password) untuk alasan apa pun. Membagikan OTP sama dengan menyerahkan kunci rumah Anda ke pencuri.",
             answers: [
-                { id: 1, text: "Segera kirimkan OTP karena dana terancam lenyap.", isCorrect: false },
-                { id: 2, text: "Abaikan pesan, lalu segera hubungi Call Center resmi bank.", isCorrect: true },
-                { id: 3, text: "Balas SMS tersebut dan maki-maki pengirim spam.", isCorrect: false }
+                { id: 1, text: "Abaikan pesan dan hubungi bank.", desc: "Mencari kebenaran via jalur resmi.", isCorrect: true, feedback: "Langkah yang sangat tepat! Selalu verifikasi melalui Call Center resmi bank, bukan dari nomor pengirim SMS." },
+                { id: 2, text: "Segera kirimkan OTP.", desc: "Mengikuti instruksi dari SMS mencurigakan.", isCorrect: false, feedback: "Sangat Berbahaya! Jika Anda mengirim OTP, pelaku bisa langsung membobol rekening Anda dalam hitungan detik." },
+                { id: 3, text: "Balas SMS untuk marah-marah.", desc: "Memberi konfirmasi nomor aktif.", isCorrect: false, feedback: "Meskipun tidak mengirim OTP, membalas SMS justru mengkonfirmasi ke pelaku bahwa nomor HP Anda aktif." }
             ],
             progress: 10
         },
@@ -275,15 +275,15 @@
             emailSignoff: "<p>Salam Kepatuhan,</p><p style='font-weight:700; color:#111827;'>Divisi Pemeriksa Pajak Negara</p>",
             tip: "Pemerintah tidak pernah mendistribusikan surat panggilan atau pemberitahuan tagihan menggunakan aplikasi (.APK) mandiri via obrolan instan. Ini adalah Trojan Sniffer untuk mencuri SMS perbankan Anda.",
             answers: [
-                { id: 1, text: "Instal aplikasi untuk melihat kebenaran tunggakan.", isCorrect: false },
-                { id: 2, text: "Laporkan nomor tersebut ke WhatsApp dan abaikan file-nya.", isCorrect: true },
-                { id: 3, text: "Cek domain pengirim dan unduh di laptop saja.", isCorrect: false }
+                { id: 1, text: "Laporkan nomor dan abaikan.", desc: "Tindakan paling aman dari file APK.", isCorrect: true, feedback: "Luar biasa! Instansi pemerintah tidak menyebarkan dokumen resmi dalam bentuk aplikasi Android (.APK) via WhatsApp." },
+                { id: 2, text: "Instal aplikasi segera.", desc: "Membuka celah malware untuk mencuri data di HP.", isCorrect: false, feedback: "Sangat Berbahaya! Menginstal .APK dari sumber tak dikenal berisiko menyusupkan malware pencuri OTP dan password." },
+                { id: 3, text: "Unduh dan buka di Laptop.", desc: "Mencoba aman dengan beda perangkat.", isCorrect: false, feedback: "Walaupun .APK tidak bisa jalan di Windows, tetap saja mengunduh file mencurigakan adalah praktik yang buruk." }
             ],
             progress: 20
         },
         {
-            id: 3, // Active case as per prototype
-            title: "Simulasi Kasus: Serangan Phishing",
+            id: 3,
+            title: "Simulasi Kasus: Serangan Phishing Email",
             desc: "Menganalisis email mencurigakan yang masuk ke kotak pesan perusahaan imajiner 'Nexyra Corp'. Gunakan ketajaman matamu untuk menemukan tanda-tanda bahaya.",
             emailSenderName: "Support Keamanan Akun",
             emailSenderAddress: "keamanan-nexyra-noreply@gmail.com",
@@ -299,16 +299,185 @@
             emailSignoff: "<p>Salam Hangat,</p><p style='font-weight:700; color:#111827;'>Tim Keamanan Nexyra Learn</p>",
             tip: "Instansi resmi tidak pernah menggunakan domain email publik (seperti @gmail.com) untuk korespondensi keamanan formal.",
             answers: [
-                { id: 1, text: "Laporkan sebagai Phishing", desc: "Kirim email ini ke tim IT Security pusat.", isCorrect: true },
-                { id: 2, text: "Klik Link Verifikasi", desc: "Segera amankan akun melalui tautan resmi.", isCorrect: false },
-                { id: 3, text: "Cek Alamat Pengirim", desc: "Analisis validitas domain pengirim email.", isCorrect: false }
+                { id: 1, text: "Laporkan sebagai Phishing", desc: "Kirim email ini ke tim IT Security pusat.", isCorrect: true, feedback: "Tepat sekali! Domain pengirim @gmail.com adalah bukti kuat bahwa email ini palsu. Melaporkannya adalah langkah terbaik." },
+                { id: 2, text: "Klik Link Verifikasi", desc: "Segera amankan akun melalui tautan resmi.", isCorrect: false, feedback: "Bahaya! Mengeklik tautan tersebut akan mengarahkan Anda ke situs tiruan untuk mencuri password Anda." },
+                { id: 3, text: "Cek Alamat Pengirim", desc: "Analisis validitas domain pengirim email.", isCorrect: false, feedback: "Langkah ini bagus untuk dianalisis, tapi pada akhirnya Anda harus melaporkan (Opsi 1) email tersebut, bukan hanya menganalisis." }
             ],
             progress: 30
+        },
+        {
+            id: 4,
+            title: "Simulasi Kasus: Ransomware Berkedok Invoice",
+            desc: "Anda menerima email dari vendor fiktif berisi lampiran file ZIP yang diklaim sebagai tagihan (invoice) yang belum dibayar bulan ini.",
+            emailSenderName: "Bagian Keuangan Vendor",
+            emailSenderAddress: "finance@billing-services-info.com",
+            emailSubject: "Tagihan Belum Dibayar - Invoice #INV-9284",
+            emailBody: `
+                <p>Yth. Bapak/Ibu,</p>
+                <p>Terlampir invoice nomor INV-9284 untuk layanan bulan ini yang belum Anda lunasi.</p>
+                <p>Mohon segera mengunduh file lampiran dan melakukan pembayaran untuk menghindari pemutusan layanan sementara. Rincian item dapat dilihat di dalam arsip ZIP tersebut.</p>
+            `,
+            emailActionText: "Unduh Invoice_09.zip",
+            emailActionSubtext: "Ukuran: 1.2 MB (.ZIP Archive)",
+            emailQuote: "Mohon segera diproses agar layanan tidak dihentikan.",
+            emailSignoff: "<p>Salam,</p><p style='font-weight:700; color:#111827;'>Tim Keuangan</p>",
+            tip: "Waspadai lampiran .ZIP tak terduga. Ransomware sering bersembunyi dalam file arsip untuk mengelabui filter antivirus email.",
+            answers: [
+                { id: 1, text: "Konfirmasi ke vendor via telepon.", desc: "Tanyakan langsung ke vendor asli.", isCorrect: true, feedback: "Benar! File .ZIP dari email tak terduga seringkali berisi Ransomware yang bisa mengenkripsi seluruh file komputer Anda." },
+                { id: 2, text: "Unduh untuk melihat isinya.", desc: "Memastikan apakah tagihan ini valid.", isCorrect: false, feedback: "Sangat Berbahaya! Mengekstrak dan membuka isi file .ZIP tersebut bisa memicu eksekusi Ransomware." },
+                { id: 3, text: "Teruskan ke rekan kerja.", desc: "Minta rekan memverifikasi invoice.", isCorrect: false, feedback: "Buruk! Meneruskan email ini berisiko membuat rekan kerja Anda secara tidak sengaja membuka file berbahaya tersebut." }
+            ],
+            progress: 40
+        },
+        {
+            id: 5,
+            title: "Simulasi Kasus: Pembaruan Software Palsu",
+            desc: "Saat menjelajahi web, tiba-tiba muncul pop-up mendesak yang mengklaim browser Anda kedaluwarsa dan meminta Anda mengunduh update.",
+            emailSenderName: "Sistem Keamanan Browser",
+            emailSenderAddress: "alerts@system-update-center.net",
+            emailSubject: "Peringatan Keamanan Kritis: Browser Anda Terlalu Kuno",
+            emailBody: `
+                <p>Peringatan Pengguna,</p>
+                <p>Browser Anda terdeteksi menggunakan versi lama yang rentan terhadap serangan Zero-Day eksploit.</p>
+                <p>Segera unduh patch perbaikan darurat agar Anda tetap terlindungi saat berselancar di internet.</p>
+            `,
+            emailActionText: "Update_Browser_Sekarang.exe",
+            emailActionSubtext: "Pembaruan Kritis - 15MB",
+            emailQuote: "Jangan ambil risiko diretas, selalu perbarui perangkat lunak Anda.",
+            emailSignoff: "<p>Hormat Kami,</p><p style='font-weight:700; color:#111827;'>Pusat Peringatan Sistem</p>",
+            tip: "Pembaruan browser resmi terjadi di latar belakang (background) secara otomatis atau melalui menu pengaturan internal browser, bukan lewat pop-up acak dari website.",
+            answers: [
+                { id: 1, text: "Tutup tab browser dan abaikan.", desc: "Abaikan pesan peringatan palsu tersebut.", isCorrect: true, feedback: "Bagus! Pop-up seperti ini dikenal sebagai 'Scareware' yang bertujuan menakuti Anda untuk menginstal malware." },
+                { id: 2, text: "Klik dan instal pembaruan.", desc: "Mengamankan browser dari Zero-Day eksploit.", isCorrect: false, feedback: "Sangat Berbahaya! File .exe tersebut dipastikan adalah malware atau Trojan yang menyamar." },
+                { id: 3, text: "Bagikan pop-up ke grup IT.", desc: "Peringatkan orang lain tentang masalah ini.", isCorrect: false, feedback: "Tidak perlu. Membuang waktu dan dapat memicu kepanikan. Cukup abaikan dan tutup." }
+            ],
+            progress: 50
+        },
+        {
+            id: 6,
+            title: "Simulasi Kasus: Pesan CEO Mendesak",
+            desc: "Menerima pesan WhatsApp mendadak dari nomor tak dikenal yang menggunakan foto profil CEO perusahaan Anda, meminta transfer dana darurat.",
+            emailSenderName: "Bapak CEO (via WhatsApp)",
+            emailSenderAddress: "+62-899-0011-2233",
+            emailSubject: "Transfer Dana Darurat Klien",
+            emailBody: `
+                <p>Halo,</p>
+                <p>Saya sedang meeting tertutup dengan klien penting dan butuh dana cepat untuk DP proyek hari ini juga sebesar Rp25 Juta.</p>
+                <p>Tolong segera transfer ke rekening ini, nanti siang saya ganti. Ini sangat mendesak dan rahasia.</p>
+            `,
+            emailActionText: "Transfer ke Rek. BCA 10293xxx",
+            emailActionSubtext: "Atas Nama: Budi (Klien)",
+            emailQuote: "Kerjakan secepatnya, saya tunggu laporannya dalam 10 menit.",
+            emailSignoff: "<p>Salam,</p><p style='font-weight:700; color:#111827;'>CEO Anda</p>",
+            tip: "Serangan ini disebut CEO Fraud / Whaling. Penyerang meniru eksekutif tinggi dengan alasan mendesak untuk memaksa karyawan bawahan mentransfer uang.",
+            answers: [
+                { id: 1, text: "Verifikasi via saluran resmi lain.", desc: "Hubungi telepon kantor atau sekretaris.", isCorrect: true, feedback: "Sangat Tepat! Ini adalah serangan BEC / CEO Fraud. Selalu verifikasi langsung ke pihak terkait." },
+                { id: 2, text: "Segera transfer demi karier.", desc: "Mematuhi perintah atasan agar tidak dipecat.", isCorrect: false, feedback: "Berbahaya! Perusahaan tidak akan meminta transfer uang ke rekening pribadi asing secara mendadak via WhatsApp." },
+                { id: 3, text: "Balas pesan meminta kepastian.", desc: "Tanyakan apakah ini benar CEO.", isCorrect: false, feedback: "Kurang tepat. Pelaku akan tetap bersikeras bahwa ia adalah CEO yang sedang dalam kondisi darurat." }
+            ],
+            progress: 60
+        },
+        {
+            id: 7,
+            title: "Simulasi Kasus: Undian Berhadiah",
+            desc: "Mendapat pop-up di layar handphone dari platform e-commerce yang mengklaim Anda memenangkan undian Rp50 Juta.",
+            emailSenderName: "Layanan E-Commerce Resmi",
+            emailSenderAddress: "promo-gebyar@belanja-untung-info.com",
+            emailSubject: "SELAMAT! Anda Pemenang Undian Gebyar 2024",
+            emailBody: `
+                <p>Pelanggan Setia,</p>
+                <p>Selamat! Nomor handphone Anda terpilih sebagai pemenang pertama undian Gebyar sebesar <strong>Rp50 Juta</strong>!</p>
+                <p>Untuk mengklaim hadiah Anda, silakan bayar biaya administrasi sebesar Rp250.000 saja ke rekening agen pengesahan kami.</p>
+            `,
+            emailActionText: "Klaim Hadiah Sekarang",
+            emailActionSubtext: "Bayar Admin Rp250.000",
+            emailQuote: "Promo ini terbatas, klaim sebelum pukul 23:59 malam ini.",
+            emailSignoff: "<p>Selamat!</p><p style='font-weight:700; color:#111827;'>Panitia Gebyar 2024</p>",
+            tip: "Taktik Advance-Fee Scam: Penipu meminta korban membayar sejumlah uang kecil di muka dengan janji imbalan besar yang sebenarnya tidak pernah ada.",
+            answers: [
+                { id: 1, text: "Abaikan dan hapus pesan.", desc: "Mengabaikan janji manis palsu.", isCorrect: true, feedback: "Tepat! Undian resmi tidak pernah memungut biaya administrasi di muka yang harus ditransfer ke rekening pribadi." },
+                { id: 2, text: "Kirim Rp250.000 untuk klaim.", desc: "Kesempatan emas jangan dilewatkan.", isCorrect: false, feedback: "Sangat Berbahaya! Ini adalah bentuk Advance-Fee Scam klasik. Uang admin Anda akan hilang dan hadiahnya fiktif." },
+                { id: 3, text: "Berikan data diri untuk klaim.", desc: "Cukup isi formulir tanpa transfer.", isCorrect: false, feedback: "Tetap Berbahaya! Data pribadi Anda bisa disalahgunakan untuk pinjaman online ilegal atau dijual di Dark Web." }
+            ],
+            progress: 70
+        },
+        {
+            id: 8,
+            title: "Simulasi Kasus: Wi-Fi Publik di Bandara",
+            desc: "Sedang menunggu pesawat di bandara, Anda melihat sinyal Wi-Fi terbuka tanpa password bernama 'Free_Airport_WiFi_Fast'.",
+            emailSenderName: "Sistem Jaringan Terbuka",
+            emailSenderAddress: "Portal Hotspot Bandara",
+            emailSubject: "Peringatan: Jaringan Tanpa Enkripsi",
+            emailBody: `
+                <p>Anda akan terhubung ke <strong>Free_Airport_WiFi_Fast</strong> yang tidak diamankan dengan kata sandi WPA/WPA2.</p>
+                <p>Apakah Anda ingin melanjutkan sesi browsing untuk mengecek saldo di aplikasi m-Banking Anda sekarang?</p>
+                <br>
+            `,
+            emailActionText: "Buka m-Banking Sekarang",
+            emailActionSubtext: "Sinyal Kuat",
+            emailQuote: "Internet gratis dan cepat seringkali datang dengan harga privasi Anda.",
+            emailSignoff: "<p>Status,</p><p style='font-weight:700; color:#111827;'>Koneksi Tidak Aman</p>",
+            tip: "Serangan Man-in-the-Middle (MitM) sering terjadi di Wi-Fi publik tanpa password. Hacker dapat menyadap lalu lintas data dan mencuri kredensial perbankan Anda.",
+            answers: [
+                { id: 1, text: "Gunakan Paket Data Seluler (4G).", desc: "Menghindari jaringan WiFi publik.", isCorrect: true, feedback: "Tepat! Untuk transaksi perbankan, selalu gunakan jaringan seluler pribadi atau gunakan koneksi VPN terpercaya." },
+                { id: 2, text: "Connect Wi-Fi lalu buka m-Banking.", desc: "Mumpung sinyal gratis dan cepat.", isCorrect: false, feedback: "Bahaya! Data transaksi dan password m-Banking Anda dapat disadap (sniffing) oleh pembuat hotspot palsu tersebut." },
+                { id: 3, text: "Connect tapi hanya buka WA.", desc: "Membatasi diri dari aplikasi sensitif.", isCorrect: false, feedback: "Masih berisiko. Walaupun WhatsApp dienkripsi, penyerang masih bisa memanen metadata perangkat Anda." }
+            ],
+            progress: 80
+        },
+        {
+            id: 9,
+            title: "Simulasi Kasus: Dukungan IT Palsu",
+            desc: "Anda menerima telepon dari seseorang yang mengaku dari Tim IT (Helpdesk) kantor, meminta password untuk 'memperbaiki akun email Anda yang bermasalah'.",
+            emailSenderName: "Staf Helpdesk IT",
+            emailSenderAddress: "Panggilan Telepon (Vishing)",
+            emailSubject: "Dimohon Kerjasamanya - Perbaikan Server Email",
+            emailBody: `
+                <p>Halo, saya dari IT Support Pusat.</p>
+                <p>Server kami sedang mengalami gangguan dan kami melihat akun email Anda terancam terhapus dari database.</p>
+                <p>Untuk menstabilkan akun Anda, mohon sebutkan Password Anda sekarang juga agar saya dapat memperbaikinya dari sistem backend.</p>
+            `,
+            emailActionText: "Sebutkan Password",
+            emailActionSubtext: "Amankan akun sekarang",
+            emailQuote: "Tim IT asli tidak pernah meminta kata sandi Anda dalam kondisi apa pun.",
+            emailSignoff: "<p>Status,</p><p style='font-weight:700; color:#111827;'>Menunggu Konfirmasi</p>",
+            tip: "Admin sistem, tim IT perusahaan, maupun customer service resmi memiliki akses backend yang TIDAK memerlukan kata sandi pengguna sama sekali.",
+            answers: [
+                { id: 1, text: "Tolak dan matikan telepon.", desc: "Lalu laporkan ke IT resmi.", isCorrect: true, feedback: "Langkah Sempurna! IT resmi tidak akan pernah meminta password Anda. Tolak, tutup telepon, dan laporkan." },
+                { id: 2, text: "Sebutkan password Anda.", desc: "Mematuhi instruksi tim IT.", isCorrect: false, feedback: "Fatal! Ini adalah Social Engineering (Vishing). Anda baru saja memberikan akses akun ke penjahat." },
+                { id: 3, text: "Ubah jadi 12345 lalu berikan.", desc: "Memberi password dummy yang mudah.", isCorrect: false, feedback: "Buruk! Password apapun yang Anda berikan tetap membuka akses mereka ke data sensitif dalam akun Anda." }
+            ],
+            progress: 90
+        },
+        {
+            id: 10,
+            title: "Simulasi Kasus: Pelanggaran Hak Cipta Sosmed",
+            desc: "Anda menerima Direct Message (DM) di akun bisnis Instagram Anda yang mengatasnamakan 'Meta Support', menuduh Anda melanggar hak cipta.",
+            emailSenderName: "Meta Copyright Infringement",
+            emailSenderAddress: "DM Instagram (Verified Badge Palsu)",
+            emailSubject: "Peringatan Penghapusan Akun Instagram Permanen",
+            emailBody: `
+                <p>Pengguna Terhormat,</p>
+                <p>Kami telah menerima keluhan bahwa postingan terakhir Anda melanggar pedoman Hak Cipta kami.</p>
+                <p>Jika Anda tidak mengajukan banding melalui tautan di bawah ini dalam waktu 24 jam, akun bisnis Anda akan dinonaktifkan secara permanen.</p>
+            `,
+            emailActionText: "Ajukan Banding (Appeal)",
+            emailActionSubtext: "Tautan ke form eksternal",
+            emailQuote: "Sistem banding resmi platform sosial media selalu berada di dalam pengaturan aplikasi, bukan lewat DM.",
+            emailSignoff: "<p>Hormat kami,</p><p style='font-weight:700; color:#111827;'>Meta Copyright Team</p>",
+            tip: "Platform sosial media (Instagram, Twitter, Tiktok) tidak mengirimkan peringatan pelanggaran akun melalui Direct Message biasa. Semua peringatan masuk via notifikasi sistem.",
+            answers: [
+                { id: 1, text: "Abaikan dan block pengirim.", desc: "Tidak merespon pesan ancaman palsu.", isCorrect: true, feedback: "Sangat Tepat! Ini adalah upaya pencurian akun (Account Hijacking). Meta tidak pernah menghubungi Anda melalui DM." },
+                { id: 2, text: "Klik tautan dan login.", desc: "Menyelamatkan akun dari pemblokiran.", isCorrect: false, feedback: "Fatal! Halaman banding itu palsu. Setelah Anda login di sana, pelaku akan mengambil alih akun Instagram Anda sepenuhnya." },
+                { id: 3, text: "Minta maaf via DM.", desc: "Berharap mereka tidak menghapus akun.", isCorrect: false, feedback: "Tidak Berguna. Mereka adalah bot penipu yang akan tetap mendesak Anda untuk mengeklik tautan phishing mereka." }
+            ],
+            progress: 100
         }
     ];
 
-    let currentCaseIndex = 2; // Case 3 (index 2) is the Phishing Gmail Scenario from prototype
+    let currentCaseIndex = 0; // Start from the first case
     let selectedAnswerId = null;
+    let totalScore = 0;
 
     window.addEventListener('DOMContentLoaded', () => {
         loadScenario();
@@ -429,7 +598,7 @@
         lucide.createIcons();
     }
 
-    // Interactive Action selection
+        // Interactive Action selection
     function selectAction(num, ansId) {
         selectedAnswerId = ansId;
         
@@ -466,17 +635,11 @@
         if (selectedObj.isCorrect) {
             tipContainer.style.background = '#ECFDF5';
             tipContainer.style.borderColor = '#10B981';
-            document.getElementById('tip-text').innerHTML = `<strong>Tepat sekali!</strong> Memang benar, respons terbaik adalah melaporkan email berbahaya ke tim IT perusahaan agar segera diblokir secara massal di gateway surat.`;
+            document.getElementById('tip-text').innerHTML = `<strong>Tepat sekali!</strong> ${selectedObj.feedback}`;
         } else {
-            if (num === 2) {
-                tipContainer.style.background = '#FEF2F2';
-                tipContainer.style.borderColor = '#EF4444';
-                document.getElementById('tip-text').innerHTML = `<strong>Bahaya!</strong> Mengeklik tombol verifikasi pada email phishing di samping akan mengarahkan Anda ke situs tiruan pencuri sandi (credential harvesting website) yang merugikan keamanan akun Anda.`;
-            } else {
-                tipContainer.style.background = '#F0F9FF';
-                tipContainer.style.borderColor = '#3B82F6';
-                document.getElementById('tip-text').innerHTML = `<strong>Analisis Menarik!</strong> Mengecek alamat pengirim adalah langkah cerdas. Di sini, domain pengirim <strong>@gmail.com</strong> mempertegas email ini palsu, karena support resmi Nexyra pasti memakai nama domain <strong>@nexyra.com</strong>.`;
-            }
+            tipContainer.style.background = num === 2 ? '#FEF2F2' : '#F0F9FF';
+            tipContainer.style.borderColor = num === 2 ? '#EF4444' : '#3B82F6';
+            document.getElementById('tip-text').innerHTML = `<strong>${num === 2 ? 'Bahaya!' : 'Analisis Menarik!'}</strong> ${selectedObj.feedback}`;
         }
     }
 
@@ -492,6 +655,7 @@
 
         if (selectedChoice.isCorrect) {
             alert("Jawaban Benar! Anda berhasil mendeteksi ancaman Phishing ini.");
+            totalScore++;
         } else {
             alert("Jawaban Kurang Tepat. Hati-hati, rekayasa sosial memanfaatkan kepanikan korban!");
         }
@@ -505,13 +669,30 @@
     }
 
     function advanceCase() {
-        // Since it's a prototype loop, we rotate cases or redirect to results page
-        if (currentCaseIndex === 0) {
-            // End of cases loop, go to results page
-            window.location.href = "{{ route('hasil') }}";
+        currentCaseIndex++;
+        if (currentCaseIndex >= scenarios.length) {
+            let finalScore = Math.round((totalScore / scenarios.length) * 100);
+            // Post result to API
+            fetch("{{ route('save.result') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({
+                    type: "simulasi",
+                    reference_id: "global-simulasi",
+                    score: finalScore,
+                    max_score: 100
+                })
+            }).then(() => {
+                window.location.href = "{{ route('hasil') }}";
+            }).catch(err => {
+                console.error("Error saving result:", err);
+                window.location.href = "{{ route('hasil') }}";
+            });
         } else {
-            // Decrease index to show another case (rotating Cases 3 -> 2 -> 1)
-            currentCaseIndex--;
+            // Show next case
             loadScenario();
         }
     }
@@ -526,7 +707,23 @@
             if (totalSeconds <= 0) {
                 clearInterval(timerInterval);
                 alert("Waktu simulasi kasus habis!");
-                window.location.href = "{{ route('hasil') }}";
+                let finalScore = Math.round((totalScore / scenarios.length) * 100);
+                // Post result to API
+                fetch("{{ route('save.result') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        type: "simulasi",
+                        reference_id: "global-simulasi",
+                        score: finalScore,
+                        max_score: 100
+                    })
+                }).finally(() => {
+                    window.location.href = "{{ route('hasil') }}";
+                });
                 return;
             }
             totalSeconds--;

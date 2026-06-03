@@ -245,12 +245,16 @@ body {
 <div class="profile-container">
 
     {{-- ===== SIDEBAR ===== --}}
-    <aside class="sidebar-nav" style="width:260px; flex-shrink:0; position:fixed; top:0; left:0; height:100vh;
-                  background:rgba(255,255,255,0.92); backdrop-filter:blur(12px);
-                  border-right:1px solid #E5E7EB; display:flex; flex-direction:column;
-                  justify-content:space-between; z-index:30; overflow-y:auto;">
-        @include('partials.sidebar', ['active' => 'profil'])
-    </aside>
+    @if(auth()->user()->role === 'admin')
+        @include('partials.sidebar-admin', ['active' => ''])
+    @else
+        <aside class="sidebar-nav" style="width:260px; flex-shrink:0; position:fixed; top:0; left:0; height:100vh;
+                      background:rgba(255,255,255,0.92); backdrop-filter:blur(12px);
+                      border-right:1px solid #E5E7EB; display:flex; flex-direction:column;
+                      justify-content:space-between; z-index:30; overflow-y:auto;">
+            @include('partials.sidebar', ['active' => 'profil'])
+        </aside>
+    @endif
 
     {{-- ===== MAIN ===== --}}
     <main class="main-content" style="flex:1; margin-left:260px; display:flex; flex-direction:column; min-width: 0;">
@@ -263,34 +267,58 @@ body {
 
             {{-- Profile Header Card --}}
             <div class="card-base" style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
-                {{-- Avatar --}}
                 <div style="position: relative; width: 120px; height: 120px; flex-shrink: 0; margin: 0 auto;">
-                    <img id="avatar-img" src="{{ asset('images/profile_avatar.png') }}"
-                         style="width: 120px; height: 120px; border-radius: 1.5rem; object-fit: cover; border: 3px solid #7B61FF; box-shadow: 0 8px 16px rgba(123,97,255,0.15);"
-                         alt="Alex Rivers Avatar">
-                    <div style="position: absolute; bottom: -8px; right: -8px; width: 28px; height: 28px; background: #7B61FF;
+                    @php
+                        $user = auth()->user();
+                        $name = strtolower($user->name);
+                        // Simple heuristic for gender based on our seeded users
+                        $isFemale = in_array($name, ['naysilla', 'rusyda', 'alicia', 'salsa']);
+                        
+                        // We use a dynamic avatar service if no custom avatar is set
+                        $genderPath = $isFemale ? 'girl' : 'boy';
+                        $avatarUrl = $user->avatar ? asset('uploads/avatars/' . $user->avatar) : "https://avatar.iran.liara.run/public/{$genderPath}?username=" . urlencode($user->name);
+
+                        // Adjust border color based on role
+                        $borderColor = '#7B61FF'; // Default for siswa
+                        if ($user->role == 'admin') $borderColor = '#EF4444'; // Red for admin
+                    @endphp
+                    <img id="avatar-img" src="{{ $avatarUrl }}"
+                         style="width: 120px; height: 120px; border-radius: 1.5rem; object-fit: cover; border: 3px solid {{ $borderColor }}; background: #E5E7EB; box-shadow: 0 8px 16px rgba(0,0,0,0.1);"
+                         alt="{{ $user->name }} Avatar">
+                    
+                    <div style="position: absolute; bottom: -8px; right: -8px; width: 28px; height: 28px; background: {{ $borderColor }};
                                 border: 3px solid #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-                        <i data-lucide="check" style="width: 14px; height: 14px; color: #FFFFFF; stroke-width: 3;"></i>
+                        @if(auth()->user()->role == 'admin')
+                            <i data-lucide="shield" style="width: 14px; height: 14px; color: #FFFFFF; stroke-width: 2.5;"></i>
+                        @else
+                            <i data-lucide="check" style="width: 14px; height: 14px; color: #FFFFFF; stroke-width: 3;"></i>
+                        @endif
                     </div>
                 </div>
 
                 {{-- Profile Info --}}
                 <div style="flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 0.75rem;">
                     <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                        <h1 id="profile-name" style="font-size: 2rem; font-weight: 800; color: #111827; margin: 0; letter-spacing: -0.02em;">Alex Rivers</h1>
+                        <h1 id="profile-name" style="font-size: 2rem; font-weight: 800; color: #111827; margin: 0; letter-spacing: -0.02em;">{{ auth()->user()->name }}</h1>
                         <span style="background: rgba(123, 97, 255, 0.12); color: #7B61FF; font-size: 0.65rem; font-weight: 800;
                                      padding: 0.35rem 0.75rem; border-radius: 9999px; letter-spacing: 0.05em; text-transform: uppercase;">
-                            RANK: CYBER GUARDIAN
+                            ROLE: {{ auth()->user()->role }}
                         </span>
                     </div>
 
                     <div style="display: flex; align-items: center; gap: 6px; font-size: 0.875rem; color: #6B7280; font-weight: 600;">
                         <i data-lucide="mail" style="width: 16px; height: 16px; color: #9CA3AF;"></i>
-                        <span id="profile-email">alex.rivers@nexyra.edu</span>
+                        <span id="profile-email">{{ auth()->user()->email }}</span>
                     </div>
 
                     <p id="profile-bio" style="font-size: 0.925rem; color: #4B5563; line-height: 1.6; margin: 0; max-width: 600px;">
-                        Passionate about ethical hacking and network security. Currently mastering cryptography and penetration testing basics.
+                        @if($user->bio)
+                            {{ $user->bio }}
+                        @elseif($user->role == 'admin')
+                            Administrator platform Nexyra Learn. Bertanggung jawab atas pengelolaan dan persetujuan materi.
+                        @else
+                            Tertarik pada ethical hacking dan network security. Saat ini sedang mendalami kriptografi dan dasar-dasar penetration testing.
+                        @endif
                     </p>
                 </div>
 
@@ -299,12 +327,15 @@ body {
                     <button id="edit-profile-btn" class="btn-fill" style="width: 100%; justify-content: center;">
                         <i data-lucide="edit-3" style="width: 16px; height: 16px;"></i> Edit Profile
                     </button>
+                    @if(auth()->user()->role == 'siswa')
                     <button id="share-stats-btn" class="btn-outline" style="width: 100%; justify-content: center;">
                         <i data-lucide="share-2" style="width: 16px; height: 16px;"></i> Share Stats
                     </button>
+                    @endif
                 </div>
             </div>
 
+            @if(auth()->user()->role == 'siswa')
             {{-- Stats Grid Section --}}
             <div class="stats-grid">
                 {{-- Stat Card 1 --}}
@@ -320,7 +351,7 @@ body {
                         <span style="font-size: 0.65rem; font-weight: 800; color: #9CA3AF; letter-spacing: 0.08em; text-transform: uppercase;">
                             Total Experience
                         </span>
-                        <span style="font-size: 1.75rem; font-weight: 800; color: #7B61FF;">12,450 <span style="font-size: 1.1rem; font-weight: 600; color: #9CA3AF;">XP</span></span>
+                        <span style="font-size: 1.75rem; font-weight: 800; color: #7B61FF;">{{ number_format(auth()->user()->xp ?? 0) }} <span style="font-size: 1.1rem; font-weight: 600; color: #9CA3AF;">XP</span></span>
                     </div>
                 </div>
 
@@ -337,7 +368,7 @@ body {
                         <span style="font-size: 0.65rem; font-weight: 800; color: #9CA3AF; letter-spacing: 0.08em; text-transform: uppercase;">
                             Learning Streak
                         </span>
-                        <span style="font-size: 1.75rem; font-weight: 800; color: #D97706;">14 <span style="font-size: 1.1rem; font-weight: 600; color: #9CA3AF;">DAYS</span></span>
+                        <span style="font-size: 1.75rem; font-weight: 800; color: #D97706;">{{ auth()->user()->streak_days ?? 0 }} <span style="font-size: 1.1rem; font-weight: 600; color: #9CA3AF;">HARI</span></span>
                     </div>
                 </div>
 
@@ -352,20 +383,25 @@ body {
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0.25rem;">
                         <span style="font-size: 0.65rem; font-weight: 800; color: #9CA3AF; letter-spacing: 0.08em; text-transform: uppercase;">
-                            Badges Earned
+                            Modul Diselesaikan
                         </span>
-                        <span style="font-size: 1.75rem; font-weight: 800; color: #10B981;">28 <span style="font-size: 1.1rem; font-weight: 600; color: #9CA3AF;">COLLECTED</span></span>
+                        <span style="font-size: 1.75rem; font-weight: 800; color: #10B981;">{{ \App\Models\UserResult::where('user_id', auth()->id())->where('type', 'materi')->count() }} <span style="font-size: 1.1rem; font-weight: 600; color: #9CA3AF;">MODUL</span></span>
                     </div>
                 </div>
             </div>
 
             {{-- Learning Journey Section --}}
             <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                @php
+                    $materiCount = \App\Models\Materi::count();
+                    $completedCount = \App\Models\UserResult::where('user_id', auth()->id())->where('type', 'materi')->count();
+                    $progressPct = $materiCount > 0 ? round(($completedCount / $materiCount) * 100) : 0;
+                @endphp
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                     <h2 style="font-size: 1.5rem; font-weight: 800; color: #111827; letter-spacing: -0.02em; margin: 0;">Learning Journey</h2>
                     <span style="font-size: 0.75rem; font-weight: 800; background: rgba(123, 97, 255, 0.12); color: #7B61FF;
                                  padding: 0.35rem 0.85rem; border-radius: 9999px; letter-spacing: 0.02em;">
-                        86% Overall Progress
+                        {{ $progressPct }}% Overall Progress
                     </span>
                 </div>
 
@@ -375,114 +411,46 @@ body {
                     <div style="display: flex; flex-direction: column; gap: 0.75rem;">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <h3 style="font-size: 1.25rem; font-weight: 800; color: #111827; margin: 0;">Nexyra Foundations</h3>
-                            <span style="font-size: 0.85rem; font-weight: 700; color: #6B7280;">12 / 14 Topics Completed</span>
+                            <span style="font-size: 0.85rem; font-weight: 700; color: #6B7280;">{{ $completedCount }} / {{ $materiCount }} Topik Diselesaikan</span>
                         </div>
                         {{-- Progress bar --}}
                         <div style="width: 100%; height: 10px; background: #E5E7EB; border-radius: 9999px; overflow: hidden;">
-                            <div style="width: 86%; height: 100%; background: #7B61FF; border-radius: 9999px;"></div>
+                            <div style="width: {{ $progressPct }}%; height: 100%; background: #7B61FF; border-radius: 9999px;"></div>
                         </div>
                     </div>
 
                     {{-- Learning Journey Modules Grid --}}
                     <div class="journey-grid">
-                        {{-- Card 1: Completed --}}
+                        @foreach($recentMateri as $idx => $materi)
                         <div class="journey-card">
                             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                                <div style="width: 32px; height: 32px; border-radius: 50%; background: #D1FAE5;
+                                <div style="width: 32px; height: 32px; border-radius: 50%; 
+                                            background: {{ $idx == 0 ? '#D1FAE5' : 'rgba(123, 97, 255, 0.12)' }};
                                             display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                    <i data-lucide="check" style="width: 16px; height: 16px; color: #10B981; stroke-width: 3;"></i>
+                                    @if($idx == 0)
+                                        <i data-lucide="check" style="width: 16px; height: 16px; color: #10B981; stroke-width: 3;"></i>
+                                    @else
+                                        <i data-lucide="play" style="width: 16px; height: 16px; color: #7B61FF; fill: #7B61FF;"></i>
+                                    @endif
                                 </div>
-                                <span class="badge-diff badge-easy">Easy</span>
+                                <span class="badge-diff {{ $materi->level == 'EASY' ? 'badge-easy' : ($materi->level == 'MEDIUM' ? 'badge-medium' : 'badge-hard') }}">
+                                    {{ $materi->level }}
+                                </span>
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1;">
-                                <h4 style="font-size: 1.1rem; font-weight: 800; color: #111827; margin: 0;">Introduction to CLI</h4>
+                                <h4 style="font-size: 1.1rem; font-weight: 800; color: #111827; margin: 0;">{{ $materi->judul }}</h4>
                                 <p style="font-size: 0.8rem; color: #6B7280; line-height: 1.6; margin: 0;">
-                                    Mastering basic command-line operations and file systems.
+                                    {{ Str::limit($materi->deskripsi, 60) }}
                                 </p>
                             </div>
-                            <a href="{{ route('materi') }}" style="font-size: 0.85rem; font-weight: 700; color: #7B61FF; display: inline-flex; align-items: center; gap: 4px; width: fit-content; transition: gap 0.2s;"
+                            <a href="{{ route('materi.detail', $materi->slug) }}" style="font-size: 0.85rem; font-weight: 700; color: #7B61FF; display: inline-flex; align-items: center; gap: 4px; width: fit-content; transition: gap 0.2s;"
                                onmouseover="this.style.gap='8px'" onmouseout="this.style.gap='4px'">
-                                Review Module <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                                {{ $idx == 0 ? 'Review Materi' : ($idx == 1 ? 'Lanjut Belajar' : 'Mulai Belajar') }} <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
                             </a>
                         </div>
+                        @endforeach
 
-                        {{-- Card 2: Completed --}}
-                        <div class="journey-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                                <div style="width: 32px; height: 32px; border-radius: 50%; background: #D1FAE5;
-                                            display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                    <i data-lucide="check" style="width: 16px; height: 16px; color: #10B981; stroke-width: 3;"></i>
-                                </div>
-                                <span class="badge-diff badge-medium">Medium</span>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1;">
-                                <h4 style="font-size: 1.1rem; font-weight: 800; color: #111827; margin: 0;">Network Sniffing</h4>
-                                <p style="font-size: 0.8rem; color: #6B7280; line-height: 1.6; margin: 0;">
-                                    Understanding packet capture and Wireshark fundamentals.
-                                </p>
-                            </div>
-                            <a href="{{ route('materi') }}" style="font-size: 0.85rem; font-weight: 700; color: #7B61FF; display: inline-flex; align-items: center; gap: 4px; width: fit-content; transition: gap 0.2s;"
-                               onmouseover="this.style.gap='8px'" onmouseout="this.style.gap='4px'">
-                                Review Module <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                            </a>
-                        </div>
-
-                        {{-- Card 3: In Progress --}}
-                        <div class="journey-card">
-                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                                <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(123, 97, 255, 0.12);
-                                            display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                    <i data-lucide="play" style="width: 16px; height: 16px; color: #7B61FF; fill: #7B61FF;"></i>
-                                </div>
-                                <span class="badge-diff badge-hard">Hard</span>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1;">
-                                <h4 style="font-size: 1.1rem; font-weight: 800; color: #111827; margin: 0;">RSA Cryptography</h4>
-                                <p style="font-size: 0.8rem; color: #6B7280; line-height: 1.6; margin: 0;">
-                                    Deep dive into public and private key encryption math.
-                                </p>
-                            </div>
-                            <a href="{{ route('materi') }}" style="font-size: 0.85rem; font-weight: 700; color: #7B61FF; display: inline-flex; align-items: center; gap: 4px; width: fit-content; transition: gap 0.2s;"
-                               onmouseover="this.style.gap='8px'" onmouseout="this.style.gap='4px'">
-                                Continue Lesson <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                            </a>
-                        </div>
-
-                        {{-- Card 4: Locked --}}
-                        <div class="journey-card locked">
-                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                                <div style="width: 32px; height: 32px; border-radius: 50%; background: #E5E7EB;
-                                            display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                    <i data-lucide="lock" style="width: 16px; height: 16px; color: #9CA3AF;"></i>
-                                </div>
-                                <span class="badge-diff badge-locked">Medium</span>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1;">
-                                <h4 style="font-size: 1.1rem; font-weight: 800; color: #4B5563; margin: 0;">SQL Injection</h4>
-                                <p style="font-size: 0.8rem; color: #9CA3AF; line-height: 1.6; margin: 0;">
-                                    Learning how to identify and prevent database vulnerabilities.
-                                </p>
-                            </div>
-                        </div>
-
-                        {{-- Card 5: Locked --}}
-                        <div class="journey-card locked">
-                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                                <div style="width: 32px; height: 32px; border-radius: 50%; background: #E5E7EB;
-                                            display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                    <i data-lucide="lock" style="width: 16px; height: 16px; color: #9CA3AF;"></i>
-                                </div>
-                                <span class="badge-diff badge-locked">Hard</span>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 0.5rem; flex: 1;">
-                                <h4 style="font-size: 1.1rem; font-weight: 800; color: #4B5563; margin: 0;">Malware Analysis</h4>
-                                <p style="font-size: 0.8rem; color: #9CA3AF; line-height: 1.6; margin: 0;">
-                                    Final capstone: Understanding reverse engineering basics.
-                                </p>
-                            </div>
-                        </div>
-
-                        {{-- Card 6: Solid Cyber-Tip Panel --}}
+                        {{-- Solid Cyber-Tip Panel --}}
                         <div class="journey-card" style="background: #7B61FF; border: 1px solid #7B61FF; color: #FFFFFF;">
                             <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.2);
                                         display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -491,7 +459,7 @@ body {
                             <div style="display: flex; flex-direction: column; gap: 0.4rem; flex: 1;">
                                 <h4 style="font-size: 1.1rem; font-weight: 800; color: #FFFFFF; margin: 0;">Cyber-Tip</h4>
                                 <p style="font-size: 0.775rem; color: rgba(255, 255, 255, 0.85); line-height: 1.55; margin: 0; font-style: italic;">
-                                    "Consistency is key in security. Try to solve at least one micro-challenge every day to keep your skills sharp."
+                                    "Konsistensi adalah kunci. Selesaikan setidaknya satu tantangan mikro setiap hari agar insting keamananmu tetap tajam."
                                 </p>
                             </div>
                         </div>
@@ -499,6 +467,7 @@ body {
                     </div>
                 </div>
             </div>
+            @endif
 
         </div>
     </main>
@@ -516,38 +485,47 @@ body {
             </button>
         </div>
 
-        <form id="edit-profile-form" style="display: flex; flex-direction: column; gap: 1.25rem; width: 100%;">
+        <form id="edit-profile-form" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.25rem; width: 100%;">
+            @csrf
+            {{-- Avatar Input --}}
+            <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                <label style="font-size: 0.8rem; font-weight: 700; color: #4B5563;">FOTO PROFIL</label>
+                <input type="file" id="input-avatar" name="avatar" accept="image/*"
+                       style="border: 1px solid #D1D5DB; border-radius: 0.75rem; padding: 0.65rem 1rem; font-size: 0.9rem; outline: none; transition: border-color 0.2s;"
+                       onfocus="this.style.borderColor='#7B61FF';" onblur="this.style.borderColor='#D1D5DB';">
+            </div>
+
             {{-- Name Input --}}
             <div style="display: flex; flex-direction: column; gap: 0.4rem;">
-                <label style="font-size: 0.8rem; font-weight: 700; color: #4B5563;">FULL NAME</label>
-                <input type="text" id="input-name" required
+                <label style="font-size: 0.8rem; font-weight: 700; color: #4B5563;">NAMA LENGKAP</label>
+                <input type="text" id="input-name" name="name" required value="{{ auth()->user()->name }}"
                        style="border: 1px solid #D1D5DB; border-radius: 0.75rem; padding: 0.65rem 1rem; font-size: 0.9rem; outline: none; transition: border-color 0.2s;"
                        onfocus="this.style.borderColor='#7B61FF';" onblur="this.style.borderColor='#D1D5DB';">
             </div>
 
             {{-- Email Input --}}
             <div style="display: flex; flex-direction: column; gap: 0.4rem;">
-                <label style="font-size: 0.8rem; font-weight: 700; color: #4B5563;">EMAIL ADDRESS</label>
-                <input type="email" id="input-email" required
+                <label style="font-size: 0.8rem; font-weight: 700; color: #4B5563;">ALAMAT EMAIL</label>
+                <input type="email" id="input-email" name="email" required value="{{ auth()->user()->email }}"
                        style="border: 1px solid #D1D5DB; border-radius: 0.75rem; padding: 0.65rem 1rem; font-size: 0.9rem; outline: none; transition: border-color 0.2s;"
                        onfocus="this.style.borderColor='#7B61FF';" onblur="this.style.borderColor='#D1D5DB';">
             </div>
 
             {{-- Bio Input --}}
             <div style="display: flex; flex-direction: column; gap: 0.4rem;">
-                <label style="font-size: 0.8rem; font-weight: 700; color: #4B5563;">ABOUT ME (BIO)</label>
-                <textarea id="input-bio" rows="3" required
+                <label style="font-size: 0.8rem; font-weight: 700; color: #4B5563;">TENTANG SAYA (BIO)</label>
+                <textarea id="input-bio" name="bio" rows="3" required
                           style="border: 1px solid #D1D5DB; border-radius: 0.75rem; padding: 0.65rem 1rem; font-size: 0.9rem; outline: none; font-family: inherit; resize: none; transition: border-color 0.2s;"
-                          onfocus="this.style.borderColor='#7B61FF';" onblur="this.style.borderColor='#D1D5DB';"></textarea>
+                          onfocus="this.style.borderColor='#7B61FF';" onblur="this.style.borderColor='#D1D5DB';">{{ auth()->user()->bio ?? (auth()->user()->role == 'admin' ? 'Administrator platform Nexyra Learn. Bertanggung jawab atas pengelolaan dan persetujuan materi.' : 'Tertarik pada ethical hacking dan network security. Saat ini sedang mendalami kriptografi dan dasar-dasar penetration testing.') }}</textarea>
             </div>
 
             {{-- Actions --}}
             <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 0.5rem;">
                 <button type="button" id="modal-cancel-btn" class="btn-outline" style="padding: 0.65rem 1.25rem; font-size: 0.875rem;">
-                    Cancel
+                    Batal
                 </button>
                 <button type="submit" class="btn-fill" style="padding: 0.65rem 1.5rem; font-size: 0.875rem;">
-                    Save Changes
+                    Simpan Perubahan
                 </button>
             </div>
         </form>
@@ -642,27 +620,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Edit Profile Form Submit Handler
-    editForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        // Update profile card details dynamically
-        profileName.innerText = inputName.value.trim();
-        profileEmail.innerText = inputEmail.value.trim();
-        profileBio.innerText = inputBio.value.trim();
-
-        closeModal();
-        showToast('Profile updated successfully!', 'user-check');
-    });
+    @if(session('success'))
+        showToast('{{ session('success') }}', 'check-circle');
+    @endif
+    @if($errors->any())
+        showToast('Gagal mengupdate profil. Pastikan data valid.', 'alert-circle');
+    @endif
 
     // Share Stats Action
     shareBtn.addEventListener('click', function () {
+        const xp = "{{ number_format(auth()->user()->xp ?? 0) }}";
+        const streaks = "{{ auth()->user()->streak_days ?? 0 }}";
+        const pct = "{{ $progressPct ?? 0 }}";
+        const comp = "{{ $completedCount ?? 0 }}";
+        const totalM = "{{ $materiCount ?? 0 }}";
+
         const statsSummary = `Nexyra Learn Profile - ${profileName.innerText.trim()}\n` +
                              `📧 Email: ${profileEmail.innerText.trim()}\n` +
-                             `📈 Experience: 12,450 XP (Top 5%)\n` +
-                             `🔥 Learning Streak: 14 Days (Master Level)\n` +
-                             `🛡️ Badges: 28 Collected\n` +
-                             `🎓 Progress: 86% Overall (12/14 Topics Completed)`;
+                             `📈 Experience: ${xp} XP\n` +
+                             `🔥 Learning Streak: ${streaks} Days\n` +
+                             `🎓 Progress: ${pct}% Overall (${comp}/${totalM} Topics Completed)`;
 
         navigator.clipboard.writeText(statsSummary).then(function () {
             showToast('Stats copied to clipboard!', 'copy');

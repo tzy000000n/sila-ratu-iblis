@@ -15,13 +15,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Admins
+        User::factory()->create(['name' => 'Ardiona', 'email' => 'ardiona@admin.nexyra.com', 'role' => 'admin']);
+        User::factory()->create(['name' => 'Rusyda', 'email' => 'rusyda@admin.nexyra.com', 'role' => 'admin']);
+        User::factory()->create(['name' => 'Naysilla', 'email' => 'naysilla@admin.nexyra.com', 'role' => 'admin']);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Students
+        User::factory()->create(['name' => 'Calvin', 'email' => 'calvin@student.nexyra.com', 'role' => 'siswa']);
+        User::factory()->create(['name' => 'Alicia', 'email' => 'alicia@student.nexyra.com', 'role' => 'siswa']);
+
+
+
+        $this->call([
+            MateriSeeder::class,
+            QuizSeeder::class,
+            SimulasiSeeder::class,
         ]);
-
-        $this->call(MateriSeeder::class);
     }
 }

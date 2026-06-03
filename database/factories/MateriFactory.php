@@ -86,6 +86,7 @@ class MateriFactory extends Factory
             'kategori' => $kategori,
             'konten' => $konten,
             'is_premium' => $this->faker->boolean(20), // 20% chance of being premium
+            'status' => 'approved',
         ];
     }
 }

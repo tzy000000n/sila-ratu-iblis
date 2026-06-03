@@ -13,17 +13,23 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $email = $request->input('email');
-        $password = $request->input('password');
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-        // Hardcoded credentials
-        if ($email === 'tupaikidal' && $password === 'Kambingguling_001') {
-            session(['isAuthenticated' => true]);
-            session(['user' => 'Raka Pratama']);
-            return redirect()->route('dashboard');
+        if (\Illuminate\Support\Facades\Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+            
+            $role = auth()->user()->role;
+            if ($role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('dashboard');
+            }
         }
 
-        return redirect()->route('login')->with('error', 'ID/Email atau Password salah. Silakan coba lagi.');
+        return back()->with('error', 'ID/Email atau Password salah. Silakan coba lagi.');
     }
 
     public function showRegisterForm()
@@ -33,17 +39,29 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        // For demo: just log them in after "registering"
-        $name = $request->input('name');
-        session(['isAuthenticated' => true]);
-        session(['user' => $name]);
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+        ]);
+
+        $user = \App\Models\User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+            'role' => 'siswa', // Default role for public registration
+        ]);
+
+        \Illuminate\Support\Facades\Auth::login($user);
+
         return redirect()->route('dashboard');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        session()->forget('isAuthenticated');
-        session()->forget('user');
+        \Illuminate\Support\Facades\Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('login');
     }
 }

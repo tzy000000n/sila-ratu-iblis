@@ -331,7 +331,7 @@
                             <i data-lucide="check-circle" style="width:15px;height:15px;color:#10B981;"></i>
                             <span style="font-size:0.65rem;font-weight:800;color:#374151;letter-spacing:0.08em;">TRUSTED BY 500+ SCHOOLS</span>
                         </div>
-                        <p style="font-size:0.75rem;color:#9CA3AF;">Dipercaya oleh ribuan siswa dan guru di seluruh Indonesia</p>
+                        <p style="font-size:0.75rem;color:#9CA3AF;">Dipercaya oleh ribuan pengguna di seluruh Indonesia</p>
                     </div>
                 </div>
             </div>

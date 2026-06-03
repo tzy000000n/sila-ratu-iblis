@@ -39,13 +39,13 @@
                         <i data-lucide="sparkles" style="width:14px; height:14px;"></i> Rekomendasi Utama
                     </div>
                     <h2 style="font-size:2.25rem; font-weight:800; color:#111827; margin-top:0.75rem; margin-bottom:1.25rem; line-height:1.25; letter-spacing:-0.03em;">
-                        Mastering Social Engineering Defense
+                        {{ $rekomendasiUtama->judul }}
                     </h2>
                     <p style="font-size:0.925rem; color:#6B7280; line-height:1.7; margin-bottom:2.25rem; max-width:520px;">
-                        Karena kamu berhasil mengidentifikasi 4 dari 5 serangan phishing kemarin, modul ini akan membantumu memahami psikologi di balik manipulasi digital untuk perlindungan tingkat lanjut.
+                        Karena kamu menunjukkan minat pada keamanan cyber, modul <strong>{{ $rekomendasiUtama->kategori }}</strong> ini akan sangat membantu meningkatkan skill kamu di level {{ $rekomendasiUtama->level }}.
                     </p>
                     <div style="display:flex; align-items:center; gap:1.5rem;">
-                        <a href="{{ route('materi.detail', 'mastering-social-engineering-defense') }}" style="display:inline-flex; align-items:center; gap:8px; background:#7B61FF; color:#fff; font-weight:700; font-size:0.9rem; padding:0.85rem 1.75rem; border-radius:0.75rem; box-shadow:0 4px 14px rgba(123, 97, 255, 0.35); transition:transform 0.2s, background-color 0.2s;" 
+                        <a href="{{ route('materi.detail', $rekomendasiUtama->slug) }}" style="display:inline-flex; align-items:center; gap:8px; background:#7B61FF; color:#fff; font-weight:700; font-size:0.9rem; padding:0.85rem 1.75rem; border-radius:0.75rem; box-shadow:0 4px 14px rgba(123, 97, 255, 0.35); transition:transform 0.2s, background-color 0.2s;" 
                            onmouseover="this.style.transform='translateY(-2px)'; this.style.backgroundColor='#6366F1';" 
                            onmouseout="this.style.transform='none'; this.style.backgroundColor='#7B61FF';">
                             Mulai Sekarang <i data-lucide="arrow-right" style="width:16px; height:16px;"></i>
@@ -81,85 +81,43 @@
 
                 {{-- Cards Grid --}}
                 <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1.5rem;">
-                    
-                    <!-- Card 1: Dasar Keamanan Jaringan -->
+                    @foreach($rekomendasiList as $materi)
                     <div style="background:#fff; border:1px solid #E5E7EB; border-radius:1.25rem; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.02); transition:transform 0.2s, box-shadow 0.2s;" 
                          onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.05)';" 
                          onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.02)';">
-                        <div style="height:170px; position:relative; overflow:hidden; background:#F3F4F6;">
-                            <img src="{{ asset('images/network_globe_isometric.png') }}" style="width:100%; height:100%; object-fit:cover;" alt="Dasar Keamanan Jaringan">
-                            <span style="position:absolute; top:0.75rem; left:0.75rem; background:#D1FAE5; color:#10B981; font-size:0.65rem; font-weight:800; padding:0.25rem 0.6rem; border-radius:4px; letter-spacing:0.05em;">MUDAH</span>
+                        @php
+                            $icon = 'book';
+                            if($materi->kategori == 'Keamanan Digital') $icon = 'shield';
+                            if($materi->kategori == 'Password') $icon = 'key-round';
+                            if($materi->kategori == 'Phishing') $icon = 'fish-symbol';
+                            if($materi->kategori == 'Networking') $icon = 'network';
+                        @endphp
+                        <div style="height: 170px; background: {{ $materi->level == 'EASY' ? 'linear-gradient(to bottom, #0F172A, #1E293B)' : ($materi->level == 'MEDIUM' ? 'linear-gradient(to bottom, #18181B, #27272A)' : '#DFE7FD') }}; position: relative; display: flex; align-items: center; justify-content: center;">
+                            <span style="position:absolute; top:0.75rem; left:0.75rem; 
+                                {{ $materi->level == 'EASY' ? 'background:#D1FAE5; color:#10B981;' : ($materi->level == 'MEDIUM' ? 'background:#FEF3C7; color:#D97706;' : 'background:#FEE2E2; color:#EF4444;') }}
+                                font-size:0.65rem; font-weight:800; padding:0.25rem 0.6rem; border-radius:4px; letter-spacing:0.05em;">
+                                {{ $materi->level == 'EASY' ? 'MUDAH' : ($materi->level == 'MEDIUM' ? 'MENENGAH' : 'SULIT') }}
+                            </span>
+                            <div style="width: 64px; height: 64px; border-radius: 50%; border: 2px solid {{ $materi->level == 'EASY' ? 'rgba(56, 189, 248, 0.5)' : ($materi->level == 'MEDIUM' ? 'rgba(217, 70, 239, 0.5)' : 'transparent') }}; display: flex; align-items: center; justify-content: center; {{ $materi->level != 'HARD' ? 'box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);' : '' }}">
+                                <i data-lucide="{{ $icon }}" style="width: 32px; height: 32px; color: {{ $materi->level == 'EASY' ? '#38BDF8' : ($materi->level == 'MEDIUM' ? '#D946EF' : '#6366F1') }}; {{ $materi->level == 'HARD' ? 'width: 64px; height: 64px; stroke-width: 2;' : '' }}"></i>
+                            </div>
                         </div>
                         <div style="padding:1.5rem; display:flex; flex-direction:column; flex:1;">
-                            <h4 style="font-size:1.125rem; font-weight:800; color:#111827; margin-bottom:0.5rem; line-height:1.3;">Dasar Keamanan Jaringan</h4>
-                            <p style="font-size:0.85rem; color:#6B7280; line-height:1.55; margin-bottom:1.5rem; flex:1;">Pahami bagaimana data berpindah dari devicemu ke server dengan aman melalui enkripsi.</p>
+                            <h4 style="font-size:1.125rem; font-weight:800; color:#111827; margin-bottom:0.5rem; line-height:1.3;">{{ $materi->judul }}</h4>
+                            <p style="font-size:0.85rem; color:#6B7280; line-height:1.55; margin-bottom:1.5rem; flex:1;">{{ Str::limit($materi->deskripsi, 80) }}</p>
                             <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #F3F4F6; padding-top:1rem; margin-top:auto;">
                                 <div style="display:flex; align-items:center; gap:8px;">
-                                    <div style="display:flex; align-items:center;">
-                                        <div style="width:20px; height:20px; border-radius:50%; background:#E5E7EB; border:1.5px solid #fff; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-right:-6px; z-index:2;"><i data-lucide="user" style="width:8px; height:8px; color:#9CA3AF;"></i></div>
-                                        <div style="width:20px; height:20px; border-radius:50%; background:#D1D5DB; border:1.5px solid #fff; display:flex; align-items:center; justify-content:center; overflow:hidden; z-index:1;"><i data-lucide="user" style="width:8px; height:8px; color:#9CA3AF;"></i></div>
-                                    </div>
-                                    <span style="font-size:0.725rem; font-weight:700; color:#9CA3AF;">1.2k Siswa</span>
+                                    <span style="font-size:0.725rem; font-weight:700; color:#9CA3AF;">
+                                        <i data-lucide="folder" style="width:14px; height:14px; display:inline; margin-bottom:-2px;"></i> {{ $materi->kategori }}
+                                    </span>
                                 </div>
-                                <a href="{{ route('materi.detail', 'dasar-keamanan-jaringan') }}" style="display:flex; align-items:center; gap:4px; font-size:0.85rem; font-weight:700; color:#7B61FF;">
+                                <a href="{{ route('materi.detail', $materi->slug) }}" style="display:flex; align-items:center; gap:4px; font-size:0.85rem; font-weight:700; color:#7B61FF;">
                                     Mulai <i data-lucide="play-circle" style="width:18px; height:18px; fill:#7B61FF; color:#fff;"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Card 2: Seni Kriptografi Modern -->
-                    <div style="background:#fff; border:1px solid #E5E7EB; border-radius:1.25rem; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.02); transition:transform 0.2s, box-shadow 0.2s;" 
-                         onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.05)';" 
-                         onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.02)';">
-                        <div style="height:170px; position:relative; overflow:hidden; background:#F3F4F6;">
-                            <img src="{{ asset('images/cryptography_locks_keys.png') }}" style="width:100%; height:100%; object-fit:cover;" alt="Seni Kriptografi Modern">
-                            <span style="position:absolute; top:0.75rem; left:0.75rem; background:#FEF3C7; color:#D97706; font-size:0.65rem; font-weight:800; padding:0.25rem 0.6rem; border-radius:4px; letter-spacing:0.05em;">MENENGAH</span>
-                        </div>
-                        <div style="padding:1.5rem; display:flex; flex-direction:column; flex:1;">
-                            <h4 style="font-size:1.125rem; font-weight:800; color:#111827; margin-bottom:0.5rem; line-height:1.3;">Seni Kriptografi Modern</h4>
-                            <p style="font-size:0.85rem; color:#6B7280; line-height:1.55; margin-bottom:1.5rem; flex:1;">Belajar memecahkan kode rahasia dan bagaimana cara kerja kunci publik vs kunci privat.</p>
-                            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #F3F4F6; padding-top:1rem; margin-top:auto;">
-                                <div style="display:flex; align-items:center; gap:8px;">
-                                    <div style="display:flex; align-items:center;">
-                                        <div style="width:20px; height:20px; border-radius:50%; background:#E5E7EB; border:1.5px solid #fff; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-right:-6px; z-index:2;"><i data-lucide="user" style="width:8px; height:8px; color:#9CA3AF;"></i></div>
-                                        <div style="width:20px; height:20px; border-radius:50%; background:#D1D5DB; border:1.5px solid #fff; display:flex; align-items:center; justify-content:center; overflow:hidden; z-index:1;"><i data-lucide="user" style="width:8px; height:8px; color:#9CA3AF;"></i></div>
-                                    </div>
-                                    <span style="font-size:0.725rem; font-weight:700; color:#9CA3AF;">+850 Siswa</span>
-                                </div>
-                                <a href="{{ route('materi.detail', 'seni-kriptografi-modern') }}" style="display:flex; align-items:center; gap:4px; font-size:0.85rem; font-weight:700; color:#7B61FF;">
-                                    Mulai <i data-lucide="play-circle" style="width:18px; height:18px; fill:#7B61FF; color:#fff;"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card 3: OWASP Top 10 Beginner -->
-                    <div style="background:#fff; border:1px solid #E5E7EB; border-radius:1.25rem; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.02); transition:transform 0.2s, box-shadow 0.2s;" 
-                         onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.05)';" 
-                         onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.02)';">
-                        <div style="height:170px; position:relative; overflow:hidden; background:#F3F4F6;">
-                            <img src="{{ asset('images/laptop_desk_coding.png') }}" style="width:100%; height:100%; object-fit:cover;" alt="OWASP Top 10 Beginner">
-                            <span style="position:absolute; top:0.75rem; left:0.75rem; background:#FEF3C7; color:#D97706; font-size:0.65rem; font-weight:800; padding:0.25rem 0.6rem; border-radius:4px; letter-spacing:0.05em;">MENENGAH</span>
-                        </div>
-                        <div style="padding:1.5rem; display:flex; flex-direction:column; flex:1;">
-                            <h4 style="font-size:1.125rem; font-weight:800; color:#111827; margin-bottom:0.5rem; line-height:1.3;">OWASP Top 10 Beginner</h4>
-                            <p style="font-size:0.85rem; color:#6B7280; line-height:1.55; margin-bottom:1.5rem; flex:1;">Mengenal 10 kerentanan aplikasi web paling populer dan cara mencegahnya sejak dini.</p>
-                            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #F3F4F6; padding-top:1rem; margin-top:auto;">
-                                <div style="display:flex; align-items:center; gap:8px;">
-                                    <div style="display:flex; align-items:center;">
-                                        <div style="width:20px; height:20px; border-radius:50%; background:#E5E7EB; border:1.5px solid #fff; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-right:-6px; z-index:2;"><i data-lucide="user" style="width:8px; height:8px; color:#9CA3AF;"></i></div>
-                                        <div style="width:20px; height:20px; border-radius:50%; background:#D1D5DB; border:1.5px solid #fff; display:flex; align-items:center; justify-content:center; overflow:hidden; z-index:1;"><i data-lucide="user" style="width:8px; height:8px; color:#9CA3AF;"></i></div>
-                                    </div>
-                                    <span style="font-size:0.725rem; font-weight:700; color:#9CA3AF;">540 Siswa</span>
-                                </div>
-                                <a href="{{ route('materi.detail', 'owasp-top-10-beginner') }}" style="display:flex; align-items:center; gap:4px; font-size:0.85rem; font-weight:700; color:#7B61FF;">
-                                    Mulai <i data-lucide="play-circle" style="width:18px; height:18px; fill:#7B61FF; color:#fff;"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
+                    @endforeach
                 </div>
             </div>
 

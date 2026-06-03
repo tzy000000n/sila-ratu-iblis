@@ -9,7 +9,7 @@ class MateriController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Materi::query();
+        $query = Materi::where('status', 'approved');
 
         // Filter Kategori
         if ($request->has('category') && $request->category != '') {
@@ -29,7 +29,7 @@ class MateriController extends Controller
 
     public function show(string $slug)
     {
-        $materi = Materi::where('slug', $slug)->firstOrFail();
+        $materi = Materi::where('slug', $slug)->where('status', 'approved')->firstOrFail();
         return view('detail-materi', compact('materi'));
     }
 }

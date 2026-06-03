@@ -6,40 +6,10 @@
     @include('partials.sidebar', ['active' => 'dashboard'])
 
     {{-- ===== MAIN ===== --}}
-    <main style="flex:1; margin-left:260px; display:flex; flex-direction:column;">
+    <main style="flex:1; margin-left:260px; display:flex; flex-direction:column; min-width:0;">
 
         {{-- Header --}}
-        <header style="position:sticky; top:0; z-index:20; background:#fff;
-                       border-bottom:1px solid #E5E7EB; padding:1rem 1.75rem;
-                       display:flex; align-items:center; justify-content:space-between;">
-            <div style="display:flex; align-items:center; gap:8px; background:#F9FAFB;
-                        border:1px solid #E5E7EB; border-radius:0.75rem; padding:0.5rem 0.85rem; width:380px;">
-                <i data-lucide="search" style="width:16px;height:16px;color:#9CA3AF;flex-shrink:0;"></i>
-                <input type="text" placeholder="Cari materi atau simulasi..."
-                       style="border:none; background:transparent; outline:none; width:100%;
-                              font-family:inherit; font-size:0.875rem; color:#374151;">
-            </div>
-            <div style="display:flex; align-items:center; gap:1.5rem;">
-                <div style="display:flex; gap:1rem;">
-                    <button style="color:#6B7280; background:none; border:none; cursor:pointer;">
-                        <i data-lucide="bell" style="width:20px;height:20px;"></i>
-                    </button>
-                    <button style="color:#6B7280; background:none; border:none; cursor:pointer;">
-                        <i data-lucide="help-circle" style="width:20px;height:20px;"></i>
-                    </button>
-                </div>
-                <div style="display:flex; align-items:center; gap:12px; padding-left:1.5rem; border-left:1px solid #E5E7EB;">
-                    <div style="text-align:right;">
-                        <p style="font-size:0.875rem; font-weight:700; color:#111827;">{{ session('user') }}</p>
-                        <p style="font-size:0.65rem; font-weight:700; color:#9CA3AF; letter-spacing:0.08em;">STUDENT TIER 2</p>
-                    </div>
-                    <div style="width:40px; height:40px; border-radius:0.75rem; background:#8B5CF6;
-                                display:flex; align-items:center; justify-content:center;">
-                        <i data-lucide="user" style="width:22px;height:22px;color:#fff;"></i>
-                    </div>
-                </div>
-            </div>
-        </header>
+        @include('partials.header', ['placeholder' => 'Cari materi atau quiz...', 'showSearch' => true])
 
         {{-- Content --}}
         <div style="padding:2rem; display:flex; flex-direction:column; gap:2rem;">
@@ -49,12 +19,12 @@
                         background:linear-gradient(135deg,#7C3AED 0%,#4F46E5 100%);
                         color:#fff; position:relative; overflow:hidden;">
                 <div style="position:absolute;right:-8%;top:-60%;width:55%;height:220%;
-                            background:rgba(255,255,255,0.07);transform:rotate(15deg);"></div>
-                <div style="position:relative;z-index:1;max-width:580px;">
-                    <h2 style="font-size:2.25rem;font-weight:800;line-height:1.2;margin-bottom:0.85rem;letter-spacing:-0.02em;">
-                        Halo, {{ session('user') ?? 'Siswa' }}! 👋
+                            background:rgba(255,255,255,0.07);transform:rotate(15deg);pointer-events:none;"></div>
+                <div style="position:relative;z-index:1;">
+                    <h2 style="font-size:2.25rem;font-weight:800;line-height:1.2;margin-bottom:0.5rem;letter-spacing:-0.02em;">
+                        Halo, {{ auth()->user()->name ?? 'Siswa' }}! 👋
                     </h2>
-                    <p style="font-size:0.975rem;opacity:0.88;margin-bottom:1.5rem;line-height:1.65;">
+                    <p style="font-size:1rem;opacity:0.88;margin-bottom:1.5rem;line-height:1.65; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                         Siap melanjutkan petualanganmu hari ini? Kamu tinggal sedikit lagi menyelesaikan modul <strong>{{ $materiLanjut ? $materiLanjut->judul : 'Keamanan Digital' }}</strong>.
                     </p>
                     <div style="display:flex;gap:0.75rem;">
@@ -64,12 +34,6 @@
                                        box-shadow:0 4px 16px rgba(0,0,0,0.15);">
                             Lanjut Belajar
                         </a>
-                        <button style="display:inline-flex;align-items:center;padding:0.75rem 1.75rem;
-                                       border-radius:9999px;font-weight:600;font-size:0.9rem;
-                                       background:rgba(255,255,255,0.15);color:#fff;
-                                       border:1px solid rgba(255,255,255,0.3);cursor:pointer;">
-                            Lihat Roadmap
-                        </button>
                     </div>
                 </div>
             </div>
@@ -88,27 +52,34 @@
                                 <p style="font-size:1.15rem;font-weight:800;color:#111827;">Statistik Belajar</p>
                                 <p style="font-size:0.8rem;color:#6B7280;margin-top:2px;">Minggu ini kamu sangat produktif!</p>
                             </div>
+                            @php
+                                $xp = auth()->user()->xp ?? 0;
+                                $userLevel = 'Pemula';
+                                if ($xp > 500) $userLevel = 'Menengah';
+                                if ($xp > 1500) $userLevel = 'Lanjutan';
+                                if ($xp > 3000) $userLevel = 'Ahli';
+                            @endphp
                             <span style="font-size:0.7rem;font-weight:800;padding:0.25rem 0.75rem;
-                                         border-radius:9999px;background:#D1FAE5;color:#10B981;">Level: Pro</span>
+                                         border-radius:9999px;background:#E5E7EB;color:#6B7280;">Level: {{ $userLevel }}</span>
                         </div>
                         <div style="display:flex;gap:2rem;margin-bottom:1.75rem;">
                             <div>
                                 <p style="font-size:0.65rem;font-weight:700;color:#9CA3AF;letter-spacing:0.08em;margin-bottom:4px;">MATERI SELESAI</p>
-                                <p style="font-size:1.85rem;font-weight:800;color:#7b61ff;">24 <span style="font-size:0.875rem;font-weight:400;color:#9CA3AF;">/32</span></p>
+                                <p style="font-size:1.85rem;font-weight:800;color:#7b61ff;">{{ \App\Models\UserResult::where('user_id', auth()->id())->where('type', 'materi')->count() }} <span style="font-size:0.875rem;font-weight:400;color:#9CA3AF;">/{{ \App\Models\Materi::count() }}</span></p>
                             </div>
                             <div>
                                 <p style="font-size:0.65rem;font-weight:700;color:#9CA3AF;letter-spacing:0.08em;margin-bottom:4px;">POIN NEXYRA</p>
-                                <p style="font-size:1.85rem;font-weight:800;color:#7b61ff;">1,240</p>
+                                <p style="font-size:1.85rem;font-weight:800;color:#7b61ff;">{{ number_format(auth()->user()->xp ?? 0) }}</p>
                             </div>
                             <div>
                                 <p style="font-size:0.65rem;font-weight:700;color:#9CA3AF;letter-spacing:0.08em;margin-bottom:4px;">STREAKS</p>
-                                <p style="font-size:1.85rem;font-weight:800;color:#F59E0B;">12 <span style="font-size:0.875rem;font-weight:400;color:#9CA3AF;">Hari</span></p>
+                                <p style="font-size:1.85rem;font-weight:800;color:#F59E0B;">{{ auth()->user()->streak_days ?? 0 }} <span style="font-size:0.875rem;font-weight:400;color:#9CA3AF;">Hari</span></p>
                             </div>
                         </div>
                         <div style="display:flex;gap:0.5rem;align-items:flex-end;height:7rem;border-bottom:1px solid #E5E7EB;">
-                            @foreach([40,60,80,50,70,100,90] as $h)
-                            <div style="flex:1;background:#7b61ff;opacity:{{ $h >= 90 ? '1' : '0.2' }};
-                                        height:{{ $h }}%;border-radius:4px 4px 0 0;"></div>
+                            @foreach([0,0,0,0,0,0,0] as $h)
+                            <div style="flex:1;background:#7b61ff;opacity:{{ $h > 0 ? '1' : '0.2' }};
+                                        height:{{ $h > 0 ? $h : 0 }}%;border-radius:4px 4px 0 0;"></div>
                             @endforeach
                         </div>
                         <div style="display:flex;justify-content:space-between;margin-top:0.5rem;">
@@ -121,11 +92,15 @@
                     {{-- 4 cards --}}
                     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;">
                         @php
+                        $mCount = \App\Models\Materi::count();
+                        $cCount = \App\Models\UserResult::where('user_id', auth()->id())->where('type', 'materi')->count();
+                        $pct = $mCount > 0 ? round(($cCount / $mCount) * 100) : 0;
+                        
                         $cards = [
-                            ['book-open','#7b61ff','Materi','Akses perpustakaan modul keamanan siber yang interaktif.','bar','75%', route('materi')],
-                            ['file-question','#F59E0B','Quiz','Uji pengetahuanmu dengan tantangan seru tiap akhir modul.','badge-warning','12 BARU', '#'],
-                            ['play-square','#10B981','Simulasi','Praktek langsung di Virtual Lab yang aman dan terisolasi.','badge-success','LAB AKTIF', '#'],
-                            ['bar-chart-2','#EF4444','Hasil','Lihat perkembangan skill dan sertifikat yang telah diraih.','badge-danger','LIHAT RAPOR', '#'],
+                            ['book-open','#7b61ff','Materi','Akses perpustakaan modul keamanan siber yang interaktif.','bar', $pct . '%', route('materi')],
+                            ['file-question','#F59E0B','Quiz','Uji pengetahuanmu dengan tantangan seru tiap akhir modul.','badge-warning','12 BARU', route('quiz')],
+                            ['play-square','#10B981','Simulasi','Praktek langsung di Virtual Lab yang aman dan terisolasi.','badge-success','LAB AKTIF', route('simulasi')],
+                            ['bar-chart-2','#EF4444','Hasil','Lihat perkembangan skill dan sertifikat yang telah diraih.','badge-danger','LIHAT RAPOR', route('hasil')],
                         ];
                         @endphp
                         @foreach($cards as $c)
@@ -168,14 +143,39 @@
                             <a href="#" style="font-size:0.8rem;font-weight:700;color:#7b61ff;">Lihat Semua</a>
                         </div>
                         @php
-                        $activities = [
-                            ['check-circle','#7b61ff','Selesai: Pengenalan SQL Injection','2 jam yang lalu • Modul Dasar','+50 XP','#10B981'],
-                            ['award','#F59E0B','Lencana Baru: Junior Defender','Kemarin • Achievement','Badge','#7b61ff'],
-                            ['log-in','#9CA3AF','Login dari Perangkat Baru','2 hari yang lalu • Jakarta, ID','Info','#9CA3AF'],
-                        ];
+                        $recentResults = \App\Models\UserResult::where('user_id', auth()->id())->latest()->take(3)->get();
+                        $activities = [];
+                        foreach($recentResults as $r) {
+                            $icon = 'check-circle';
+                            $color = '#7b61ff';
+                            $desc = '';
+                            $xpText = '';
+                            $tag = '';
+                            
+                            if($r->type == 'materi') {
+                                $icon = 'book-open';
+                                $desc = 'Membaca Materi Selesai';
+                                $xpText = '+10 XP';
+                                $tag = 'Materi';
+                            } elseif($r->type == 'simulasi') {
+                                $icon = 'play-square';
+                                $color = '#10B981';
+                                $desc = 'Simulasi Selesai';
+                                $xpText = '+50 XP';
+                                $tag = 'Lab';
+                            } elseif($r->type == 'quiz') {
+                                $icon = 'file-question';
+                                $color = '#F59E0B';
+                                $desc = 'Quiz Selesai (Skor: '.$r->score.')';
+                                $xpText = '+'.$r->score.' XP';
+                                $tag = 'Quiz';
+                            }
+
+                            $activities[] = [$icon, $color, $desc, $r->created_at->diffForHumans(), $xpText, $color];
+                        }
                         @endphp
                         <div style="display:flex;flex-direction:column;gap:0.25rem;">
-                            @foreach($activities as $a)
+                            @forelse($activities as $a)
                             <div style="display:flex;align-items:center;justify-content:space-between;padding:0.65rem 0.5rem;
                                         border-radius:0.75rem;" onmouseover="this.style.background='#F9FAFB'" onmouseout="this.style.background='transparent'">
                                 <div style="display:flex;align-items:center;gap:1rem;">
@@ -190,7 +190,11 @@
                                 </div>
                                 <span style="font-size:0.75rem;font-weight:700;color:{{ $a[5] }};">{{ $a[4] }}</span>
                             </div>
-                            @endforeach
+                            @empty
+                            <div style="text-align:center; padding:1.5rem 0; color:#6B7280; font-size:0.85rem;">
+                                Belum ada aktivitas terbaru. Ayo mulai belajar!
+                            </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -220,18 +224,24 @@
                     {{-- Leaderboard --}}
                     <div style="background:#fff;border:1px solid #E5E7EB;border-radius:1rem;
                                 padding:1.4rem;box-shadow:0 2px 12px rgba(0,0,0,0.03);">
-                        <p style="font-size:1rem;font-weight:800;color:#111827;margin-bottom:1.25rem;">Leaderboard Kelas</p>
+                        <p style="font-size:1rem;font-weight:800;color:#111827;margin-bottom:1.25rem;">Leaderboard</p>
                         @php
-                        $lb = [
-                            ['1','Sari Wijaya','2,450 XP','100%','#9CA3AF'],
-                            ['2','Raka Pratama (Kamu)','1,240 XP','50%','#7b61ff'],
-                            ['3','Budi Santoso','1,120 XP','45%','#7b61ff'],
-                        ];
+                        // Fetch top 3 users by XP
+                        $topUsers = \App\Models\User::where('role', 'siswa')->orderByDesc('xp')->take(3)->get();
+                        $lb = [];
+                        $maxLbXp = $topUsers->first() ? max($topUsers->first()->xp, 1) : 1; // avoid div 0
+                        foreach($topUsers as $i => $u) {
+                            $isMe = $u->id === auth()->id();
+                            $color = $isMe ? '#7b61ff' : '#9CA3AF';
+                            $pct = round(($u->xp / $maxLbXp) * 100);
+                            $name = $isMe ? $u->name . ' (Kamu)' : $u->name;
+                            $lb[] = [$i+1, $name, number_format($u->xp).' XP', $pct.'%', $color, $isMe];
+                        }
                         @endphp
                         <div style="display:flex;flex-direction:column;gap:0.5rem;">
                             @foreach($lb as $i => $u)
                             <div style="display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0.6rem;
-                                        border-radius:0.75rem;{{ $i===1 ? 'background:rgba(123,97,255,0.08);' : '' }}">
+                                        border-radius:0.75rem;{{ $u[5] ? 'background:rgba(123,97,255,0.08);' : '' }}">
                                 <span style="font-size:0.8rem;font-weight:700;width:16px;text-align:center;color:{{ $u[4] }};">{{ $u[0] }}</span>
                                 <div style="width:30px;height:30px;border-radius:50%;background:#E5E7EB;
                                             display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -249,11 +259,11 @@
                             </div>
                             @endforeach
                         </div>
-                        <button style="width:100%;padding:0.7rem;margin-top:1.1rem;font-size:0.8rem;font-weight:700;
+                        <a href="{{ route('leaderboard') }}" style="display:block;text-align:center;text-decoration:none;width:100%;padding:0.7rem;margin-top:1.1rem;font-size:0.8rem;font-weight:700;
                                        color:#6B7280;background:#F9FAFB;border-radius:0.75rem;border:none;cursor:pointer;font-family:inherit;"
                                 onmouseover="this.style.background='#F3F4F6'" onmouseout="this.style.background='#F9FAFB'">
                             Lihat Peringkat Lengkap
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

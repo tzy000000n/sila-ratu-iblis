@@ -34,20 +34,39 @@
             <div style="display: grid; grid-template-columns: 340px 1fr; gap: 1.75rem; align-items: stretch;">
                 
                 {{-- Overall Score Card --}}
-                <div class="card" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2.5rem; gap: 1.5rem;">
-                    <h3 style="font-size: 1.15rem; font-weight: 800; color: #374151;">Skor Keseluruhan</h3>
+                @php
+                    $user = auth()->user();
+                    $avgScore = \App\Models\UserResult::where('user_id', $user->id)
+                                ->whereIn('type', ['quiz', 'simulasi'])
+                                ->avg('score') ?? 0;
+                    $avgScore = round($avgScore);
+                    
+                    $level = 'Beginner';
+                    if ($avgScore >= 80) $level = 'Advanced';
+                    elseif ($avgScore >= 60) $level = 'Intermediate';
+
+                    $msg = 'Ayo mulai belajar!';
+                    if ($avgScore >= 80) $msg = 'Pertahankan prestasimu!';
+                    elseif ($avgScore >= 60) $msg = 'Terus tingkatkan!';
+                    elseif ($avgScore > 0) $msg = 'Jangan menyerah!';
+                @endphp
+                <div class="card" style="background: white; border: 1px solid #E5E7EB; border-radius: 1.25rem; padding: 2rem; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); position: relative; overflow: hidden;">
+                    
+                    <div style="font-size: 0.875rem; font-weight: 800; color: #6B7280; letter-spacing: 0.1em; display: flex; align-items: center; gap: 0.5rem; text-transform: uppercase;">
+                        SKOR KESELURUHAN
+                    </div>
                     
                     {{-- Big Percentage Text --}}
                     <div style="font-size: 5rem; font-weight: 850; color: #7b61ff; line-height: 1; letter-spacing: -0.03em; margin: 0.5rem 0;">
-                        80%
+                        {{ $avgScore }}%
                     </div>
                     
                     <div>
                         <p style="font-size: 0.9rem; font-weight: 750; color: #1F2937; line-height: 1.5; margin-bottom: 4px;">
-                            Kamu berada di level "Advanced Beginner".
+                            Kamu berada di level "{{ $level }}".
                         </p>
                         <p style="font-size: 0.85rem; color: #9CA3AF; font-weight: 500;">
-                            Pertahankan!
+                            {{ $msg }}
                         </p>
                     </div>
                 </div>
@@ -74,15 +93,22 @@
                     <div style="display: flex; flex-direction: column; justify-content: flex-end; flex: 1; height: 160px; padding: 0.5rem 0;">
                         <div style="display: flex; align-items: flex-end; justify-content: space-between; height: 100%; width: 100%; gap: 12px; border-bottom: 1px solid #E5E7EB; padding-bottom: 8px;">
                             @php
-                                $weeklyStats = [
-                                    ['day' => 'Sen', 'val' => 45, 'active' => false],
-                                    ['day' => 'Sel', 'val' => 60, 'active' => false],
-                                    ['day' => 'Rab', 'val' => 75, 'active' => false],
-                                    ['day' => 'Kam', 'val' => 100, 'active' => true],
-                                    ['day' => 'Jum', 'val' => 80, 'active' => false],
-                                    ['day' => 'Sab', 'val' => 65, 'active' => false],
-                                    ['day' => 'Min', 'val' => 35, 'active' => false],
-                                ];
+                                $weeklyStats = [];
+                                $today = \Carbon\Carbon::today();
+                                for($i = 6; $i >= 0; $i--) {
+                                    $date = $today->copy()->subDays($i);
+                                    // In a real scenario we'd count activities or XP gained on this day
+                                    // For now, let's just query if there's any result on that date and give it a value based on count
+                                    $count = \App\Models\UserResult::where('user_id', $user->id)
+                                                ->whereDate('created_at', $date)
+                                                ->count();
+                                    $val = $count > 0 ? min($count * 20, 100) : 0; // Fake some bar height based on activity count
+                                    $weeklyStats[] = [
+                                        'day' => ['Minggu', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'][$date->dayOfWeek],
+                                        'val' => $val,
+                                        'active' => $i === 0
+                                    ];
+                                }
                             @endphp
 
                             @foreach($weeklyStats as $w)
@@ -116,69 +142,21 @@
 
             {{-- Row 2: Strengths & Area of Review (Dynamically Evaluated Based on Quiz Performance Profile) --}}
             @php
-                // User's quiz performance data (fully mapped to the actual modules in the system)
-                $userScores = [
-                    'deteksi-serangan-phishing' => [
-                        'title' => 'Deteksi Serangan Phishing',
-                        'score' => 45,
-                        'slug' => 'deteksi-serangan-phishing',
-                        'time' => '45 min',
-                        'icon' => 'fish',
-                        'desc' => 'Mengenali tanda-tanda email/pesan palsu pencuri kredensial.',
-                        'tag' => 'REVIEW',
-                        'tagBg' => '#FEF3C7',
-                        'tagColor' => '#F59E0B',
-                        'btnLabel' => 'Lanjutkan',
-                        'gradient' => 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
-                        'iconColor' => '#D946EF',
-                        'iconBorderColor' => 'rgba(217, 70, 239, 0.4)'
-                    ],
-                    'seni-mengelola-password' => [
-                        'title' => 'Seni Mengelola Password',
-                        'score' => 52,
-                        'slug' => 'seni-mengelola-password',
-                        'time' => '25 min',
-                        'icon' => 'key-round',
-                        'desc' => 'Membuat sandi yang kuat dan menggunakan password manager.',
-                        'tag' => 'REVIEW',
-                        'tagBg' => '#FEE2E2',
-                        'tagColor' => '#EF4444',
-                        'btnLabel' => 'Pelajari',
-                        'gradient' => 'linear-gradient(135deg, #2E1065 0%, #4C1D95 100%)',
-                        'iconColor' => '#8B5CF6',
-                        'iconBorderColor' => 'rgba(139, 92, 246, 0.4)'
-                    ],
-                    'dasar-keamanan-digital' => [
-                        'title' => 'Dasar Keamanan Digital',
-                        'score' => 95,
-                        'slug' => 'dasar-keamanan-digital',
-                        'time' => '15 min',
-                        'icon' => 'shield',
-                        'desc' => 'Prinsip dasar cara kerja internet dan ancaman cyber.',
-                        'tag' => 'REVIEW',
-                        'tagBg' => '#FEF3C7',
-                        'tagColor' => '#F59E0B',
-                        'btnLabel' => 'Pelajari',
-                        'gradient' => 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
-                        'iconColor' => '#38BDF8',
-                        'iconBorderColor' => 'rgba(56, 189, 248, 0.4)'
-                    ],
-                    'waspada-social-engineering' => [
-                        'title' => 'Waspada Social Engineering',
-                        'score' => 88,
-                        'slug' => 'waspada-social-engineering',
-                        'time' => '15 min',
-                        'icon' => 'users',
-                        'desc' => 'Pahami bagaimana peretas mengeksploitasi kelengahan manusia.',
-                        'tag' => 'BARU',
-                        'tagBg' => '#D1FAE5',
-                        'tagColor' => '#065F46',
-                        'btnLabel' => 'Pelajari',
-                        'gradient' => 'linear-gradient(135deg, #064E3B 0%, #065F46 100%)',
-                        'iconColor' => '#34D399',
-                        'iconBorderColor' => 'rgba(16, 185, 129, 0.4)'
-                    ]
-                ];
+                // Fetch user results for quiz
+                $quizResults = \App\Models\UserResult::where('user_id', $user->id)
+                                ->where('type', 'quiz')
+                                ->get();
+                $userScores = [];
+                foreach($quizResults as $q) {
+                    $slug = $q->reference_id;
+                    $materi = \App\Models\Materi::where('slug', $slug)->first();
+                    if($materi) {
+                        $userScores[$slug] = [
+                            'title' => $materi->judul,
+                            'score' => $q->score,
+                        ];
+                    }
+                }
 
                 // Segregate strengths and reviews dynamically based on threshold of 80%
                 $strengths = [];
@@ -199,42 +177,31 @@
                     }
                 }
 
-                // Match prototype counts (3 items each)
-                if (count($strengths) < 3) {
-                    $strengths[] = ['title' => 'Network Fundamentals', 'score' => '82/100'];
-                }
-                if (count($reviews) < 3) {
-                    $reviews[] = ['title' => 'Incident Response', 'score' => '58/100', 'val' => 58];
-                }
-
-                // Dynamic Suggested courses logic:
-                // We recommend the user's absolute weakest courses (lowest scores in reviews) to prioritize their review needs!
+                $dbMaterials = \App\Models\Materi::inRandomOrder()->take(3)->get();
                 $suggestedMaterials = [];
-
-                // Sort reviews by lowest score
-                usort($reviews, function($a, $b) {
-                    return $a['val'] - $b['val'];
-                });
-
-                // Pick top 2 weakest courses for recommendation
-                $addedCount = 0;
-                foreach ($reviews as $rev) {
-                    // Match with actual full profile in $userScores if slug exists
-                    foreach ($userScores as $slug => $profile) {
-                        if ($profile['title'] === $rev['title'] && $addedCount < 2) {
-                            $suggestedMaterials[] = $profile;
-                            $addedCount++;
-                        }
-                    }
+                $colors = [
+                    ['bg' => '#FEF3C7', 'color' => '#F59E0B', 'grad' => 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)', 'icon' => '#D946EF', 'border' => 'rgba(217, 70, 239, 0.4)'],
+                    ['bg' => '#FEE2E2', 'color' => '#EF4444', 'grad' => 'linear-gradient(135deg, #2E1065 0%, #4C1D95 100%)', 'icon' => '#8B5CF6', 'border' => 'rgba(139, 92, 246, 0.4)'],
+                    ['bg' => '#D1FAE5', 'color' => '#065F46', 'grad' => 'linear-gradient(135deg, #064E3B 0%, #065F46 100%)', 'icon' => '#34D399', 'border' => 'rgba(16, 185, 129, 0.4)']
+                ];
+                
+                foreach($dbMaterials as $idx => $m) {
+                    $c = $colors[$idx % count($colors)];
+                    $suggestedMaterials[] = [
+                        'title' => $m->judul,
+                        'slug' => $m->slug,
+                        'time' => '30 min',
+                        'icon' => 'book-open',
+                        'desc' => \Illuminate\Support\Str::limit($m->deskripsi, 60),
+                        'tag' => 'REKOMENDASI',
+                        'tagBg' => $c['bg'],
+                        'tagColor' => $c['color'],
+                        'btnLabel' => 'Pelajari',
+                        'gradient' => $c['grad'],
+                        'iconColor' => $c['icon'],
+                        'iconBorderColor' => $c['border']
+                    ];
                 }
-
-                // 3rd Recommendation is Waspada Social Engineering as a "BARU" or "LANJUTAN" course to complete the set
-                if (count($suggestedMaterials) < 3) {
-                    $suggestedMaterials[] = $userScores['waspada-social-engineering'];
-                }
-
-                // Ensure exactly 3 suggested materials
-                $suggestedMaterials = array_slice($suggestedMaterials, 0, 3);
             @endphp
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem;">
@@ -249,14 +216,18 @@
                     </div>
 
                     <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: 0.25rem;">
-                        @foreach($strengths as $s)
+                        @forelse($strengths as $s)
                             <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1rem; border-radius: 0.75rem; background: #FAFBFD; border: 1px solid #F3F4F6;">
                                 <span style="font-size: 0.875rem; font-weight: 700; color: #374151;">{{ $s['title'] }}</span>
                                 <span style="font-size: 0.75rem; font-weight: 800; color: #10B981; background: #D1FAE5; padding: 4px 10px; border-radius: 9999px;">
                                     {{ $s['score'] }}
                                 </span>
                             </div>
-                        @endforeach
+                        @empty
+                            <div style="text-align: center; color: #6B7280; font-size: 0.85rem; padding: 1rem 0;">
+                                Belum ada data kekuatan utama.
+                            </div>
+                        @endforelse
                     </div>
                 </div>
 
@@ -270,14 +241,18 @@
                     </div>
 
                     <div style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: 0.25rem;">
-                        @foreach($reviews as $r)
+                        @forelse($reviews as $r)
                             <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1rem; border-radius: 0.75rem; background: #FAFBFD; border: 1px solid #F3F4F6;">
                                 <span style="font-size: 0.875rem; font-weight: 700; color: #374151;">{{ $r['title'] }}</span>
                                 <span style="font-size: 0.75rem; font-weight: 800; color: #F59E0B; background: #FEF3C7; padding: 4px 10px; border-radius: 9999px;">
                                     {{ $r['score'] }}
                                 </span>
                             </div>
-                        @endforeach
+                        @empty
+                            <div style="text-align: center; color: #6B7280; font-size: 0.85rem; padding: 1rem 0;">
+                                Belum ada materi yang perlu direview.
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -400,6 +375,12 @@
         const closeBtn = document.getElementById('modal-close-btn');
         const progressContainer = document.getElementById('modal-progress-container');
 
+        // Fetch Data from Blade
+        const avgScore = {{ $avgScore }};
+        const level = "{{ $level }}";
+        const strengths = @json($strengths);
+        const reviews = @json($reviews);
+
         // Reset state
         progressBar.style.width = '0%';
         title.innerText = 'Membuat Laporan Belajar';
@@ -427,7 +408,7 @@
                 
                 // Complete state
                 title.innerText = 'Laporan Berhasil Diunduh';
-                desc.innerText = 'Berkas PDF laporan analisis pengerjaan Anda telah tersimpan di direktori unduhan perangkat Anda.';
+                desc.innerText = 'Berkas laporan analisis pengerjaan Anda telah tersimpan di perangkat Anda.';
                 iconBg.style.background = '#D1FAE5';
                 iconBg.style.color = '#10B981';
                 icon.setAttribute('data-lucide', 'check-circle');
@@ -435,6 +416,45 @@
                 progressContainer.style.display = 'none';
                 closeBtn.style.display = 'block';
                 lucide.createIcons();
+
+                // Generate and Trigger Download
+                let reportContent = `LAPORAN HASIL PEMBELAJARAN NEXYRA LEARN\n`;
+                reportContent += `Tanggal: ${new Date().toLocaleDateString('id-ID')}\n`;
+                reportContent += `==========================================\n\n`;
+                reportContent += `Skor Keseluruhan: ${avgScore}%\n`;
+                reportContent += `Level Saat Ini: ${level}\n\n`;
+
+                reportContent += `[ KEKUATAN UTAMA ]\n`;
+                if (strengths.length > 0) {
+                    strengths.forEach(s => {
+                        reportContent += `- ${s.title} (Skor: ${s.score})\n`;
+                    });
+                } else {
+                    reportContent += `- Belum ada data kekuatan utama.\n`;
+                }
+
+                reportContent += `\n[ MATERI PERLU REVIEW ]\n`;
+                if (reviews.length > 0) {
+                    reviews.forEach(r => {
+                        reportContent += `- ${r.title} (Skor: ${r.score})\n`;
+                    });
+                } else {
+                    reportContent += `- Semua materi sudah dikuasai dengan baik!\n`;
+                }
+
+                reportContent += `\n==========================================\n`;
+                reportContent += `Terus tingkatkan belajarmu bersama Nexyra Learn!`;
+
+                const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                const timestamp = new Date().getTime();
+                a.download = `Laporan_Pembelajaran_Nexyra_${timestamp}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
             }
         }, 120);
     }

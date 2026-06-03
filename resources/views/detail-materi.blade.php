@@ -77,10 +77,10 @@
                             SELESAI MEMBACA?</div>
                         <h2 style="font-size: 1.75rem; font-weight: 800; color: #111; margin-bottom: 1.5rem;">Uji
                             pengetahuanmu sekarang!</h2>
-                        <button class="btn"
-                            style="padding: 0.75rem 2.5rem; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 0.5rem;">
+                        <a href="{{ route('quiz.take', $materi->slug) }}" class="btn"
+                            style="padding: 0.75rem 2.5rem; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 0.5rem; text-decoration: none;">
                             Mulai Quiz <i data-lucide="arrow-right" style="width: 20px; height: 20px;"></i>
-                        </button>
+                        </a>
                     </div>
 
                     <!-- Bottom Bar (Static) -->
@@ -101,15 +101,35 @@
                                 </div>
                             </div>
                         </div>
-                        <button
-                            style="background: none; border: none; font-size: 1.05rem; font-weight: 700; color: #111; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <a href="{{ route('quiz.take', $materi->slug) }}"
+                            style="background: none; border: none; font-size: 1.05rem; font-weight: 700; color: #111; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; text-decoration: none;">
                             Mulai Quiz <i data-lucide="zap" style="width: 18px; height: 18px;"></i>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
 
         </main>
-
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Track read status after 3 seconds
+            setTimeout(() => {
+                fetch("{{ route('save.result') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        type: "materi",
+                        reference_id: "{{ $materi->slug }}",
+                        score: 100, // Not really used for materi, but required by validation
+                        max_score: 100
+                    })
+                }).catch(err => console.error("Error tracking progress:", err));
+            }, 3000);
+        });
+    </script>
 @endsection
